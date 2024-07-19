@@ -1,23 +1,35 @@
 import React from "react";
 
 type propsT = {
-  matris: boolean[][];
+  matriz: boolean[][];
 };
-export default function Laberinto({ matris }: propsT) {
+
+export default function Laberinto({ matriz }: propsT) {
   return (
-    <div className="border border-black">
-      {matris.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex">
-          {row.map((cell, cellIndex) => (
-            <div
-              key={`${rowIndex}-${cellIndex}`}
-              className={`w-5 h-5 flex flex-col items-center justify-center ${
-                cell ? "bg-white" : "bg-black"
-              }`}
-            ></div>
-          ))}
-        </div>
-      ))}
+    <div className="w-full h-full">
+      {matriz.map((row, rowIndex) => {
+        const numColumns = row.length; // Obtiene el número de columnas en la fila actual
+        const rowHeight = 100 / matriz.length; // Calcula la altura de la fila como porcentaje
+        return (
+          <div
+            key={rowIndex}
+            className="grid w-full"
+            style={{
+              height: `${rowHeight}%`,
+              gridTemplateColumns: `repeat(${numColumns}, 1fr)`,
+            }}
+          >
+            {row.map((cell, cellIndex) => (
+              <div
+                key={`${rowIndex}-${cellIndex}`}
+                className={`flex items-center justify-center border border-black ${
+                  cell ? "bg-green-300" : "bg-red-400"
+                }`}
+              ></div>
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }

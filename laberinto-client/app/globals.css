@@ -14,5 +14,5 @@
 }
 
 .form_input {
-    @apply mt-1 p-3 rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500 dark:bg-input-dark bg-white dark:text-textSecondary-dark text-textSecondary-light transition
+    @apply h-full rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500 dark:bg-input-dark bg-white dark:text-textSecondary-dark text-textSecondary-light transition
 }
