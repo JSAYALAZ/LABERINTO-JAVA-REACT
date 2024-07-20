@@ -1,15 +1,17 @@
 import axios from "axios";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, MouseEvent, SetStateAction } from "react";
+import RandomCreate from "./RandomCreate";
+import Create from "./Create";
 
 type propsT = {
   setData: Dispatch<SetStateAction<undefined>>;
 };
 
 export default function CreateLaberinto({ setData }: propsT) {
-  const handleCreate = async (formData: FormData) => {
-    const cols = formData.get("col");
-    const rows = formData.get("row");
-
+  const handleCreate = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const cols = (document.getElementById('col') as HTMLInputElement).value;
+    const rows = (document.getElementById('row') as HTMLInputElement).value;
     axios
       .post("http://localhost:8080/laberinto/create", null, {
         params: {
@@ -24,9 +26,10 @@ export default function CreateLaberinto({ setData }: propsT) {
         console.error("Error creating the labyrinth:", error);
       });
   };
+
   
   return (
-    <form action={handleCreate} className="flex h-10 gap-6">
+    <form className="flex h-10 gap-6">
       <div className="flex items-center gap-2">
         <label htmlFor="col" className="form_label">
           Columnas
@@ -39,9 +42,8 @@ export default function CreateLaberinto({ setData }: propsT) {
         </label>
         <input className="form_input" type="number" name="row" id="row" />
       </div>
-      <button className="bg-amber-400 h-10 px-5 rounded-lg" type="submit">
-        Crear
-      </button>
+      <Create setData={setData}/>
+      <RandomCreate setData={setData}/>
     </form>
   );
 }

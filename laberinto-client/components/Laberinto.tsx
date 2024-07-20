@@ -61,12 +61,14 @@ export default function Laberinto({ matriz }: PropsT) {
           return (
             <div
               key={key}
-              className={`flex items-center justify-center ${
-                matriz[key]?.length > 0 ? "bg-green-300" : "bg-red-400"
-              }`}
+              className={`flex items-center justify-center 
+                ${key=='0,0'&&"bg-green-300"}
+                ${key==`${maxX-1},${maxY-1}`&&"bg-amber-500"}
+                `
+              }
               style={borders}
             >
-              {key}
+             
             </div>
           );
         })
