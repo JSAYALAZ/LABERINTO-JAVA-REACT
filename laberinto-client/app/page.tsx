@@ -6,7 +6,8 @@ import Loading from "@/components/Loading";
 import {useState } from "react";
 
 export default function page() {
-  const [matriz, setMatriz] = useState<boolean[][]>();
+  
+  const [data, setData] = useState();
 
 
   return (
@@ -17,12 +18,12 @@ export default function page() {
       {/* CONTENEDOR DE ENTRADAS */}
         <div className="lg:w-1/2 w-full h-full">
           <p className="font-bold text-lg uppercase">Informacion extra</p>
-          <CreateLaberinto setMatriz={setMatriz}/>
+          <CreateLaberinto setData={setData}/>
         </div>
 
       {/* CONTENEDOR DE LABERINTO */}  
         <div className="lg:w-1/2 w-full h-full">
-          {matriz != undefined ? <Laberinto matriz={matriz} /> : <Loading />}
+          {data != undefined ? <Laberinto matriz={data} /> : <Loading />}
         </div>
       </div>
     </div>

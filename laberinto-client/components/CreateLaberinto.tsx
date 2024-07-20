@@ -1,11 +1,11 @@
 import axios from "axios";
-import React, { Dispatch } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 type propsT = {
-  setMatriz: Dispatch<React.SetStateAction<boolean[][] | undefined>>;
+  setData: Dispatch<SetStateAction<undefined>>;
 };
 
-export default function CreateLaberinto({ setMatriz }: propsT) {
+export default function CreateLaberinto({ setData }: propsT) {
   const handleCreate = async (formData: FormData) => {
     const cols = formData.get("col");
     const rows = formData.get("row");
@@ -18,7 +18,7 @@ export default function CreateLaberinto({ setMatriz }: propsT) {
         },
       })
       .then((response) => {
-        setMatriz(response.data);
+        setData(response.data);
       })
       .catch((error) => {
         console.error("Error creating the labyrinth:", error);
