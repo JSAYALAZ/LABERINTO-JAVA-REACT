@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type PropsT = {
   matriz: {
     [key: string]: string[];
   };
+  path: string[];
 };
 
-export default function Laberinto({ matriz }: PropsT) {
+export default function Laberinto({ matriz, path }: PropsT) {
+  const [steppeds, setSteppeds] = useState<string[]>();
+  useEffect(() => {
+    if (path.length === 0) {
+      setSteppeds([]);
+    } else {
+      const timeouts = path.map((pathC, index) =>
+        setTimeout(() => {
+          setSteppeds((prevSteppeds) => [...(prevSteppeds || []), pathC]);
+        }, index * 100)
+      );
+
+      return () => timeouts.forEach(clearTimeout);
+    }
+  }, [path]);
+
   const getMaxCoordinate = (matriz: { [key: string]: string[] }) => {
     let maxX = 0;
     let maxY = 0;
@@ -23,10 +39,10 @@ export default function Laberinto({ matriz }: PropsT) {
 
   const hasNeighbor = (x: number, y: number, direction: string) => {
     const neighborKey = {
-      up: `${x},${y - 1}`,
-      down: `${x},${y + 1}`,
-      left: `${x - 1},${y}`,
-      right: `${x + 1},${y}`,
+      up: `${x},${y-1}`,
+      down: `${x},${y+1}`,
+      left: `${x-1},${y}`,
+      right: `${x+1},${y}`,
     }[direction];
 
     return matriz[`${x},${y}`]?.includes(neighborKey!);
@@ -48,27 +64,27 @@ export default function Laberinto({ matriz }: PropsT) {
               ? "1px solid transparent"
               : "1px solid black",
             borderBottom: hasNeighbor(colIndex, rowIndex, "down")
-              ? "1px solid transparent"
-              : "1px solid black",
+            ? "1px solid transparent"
+            : "1px solid black",
             borderLeft: hasNeighbor(colIndex, rowIndex, "left")
-              ? "1px solid transparent"
+            ? "1px solid transparent"
               : "1px solid black",
             borderRight: hasNeighbor(colIndex, rowIndex, "right")
-              ? "1px solid transparent"
-              : "1px solid black",
+            ? "1px solid transparent"
+            : "1px solid black",
           };
 
           return (
             <div
               key={key}
               className={`flex items-center justify-center 
-                ${key=='0,0'&&"bg-green-300"}
-                ${key==`${maxX-1},${maxY-1}`&&"bg-amber-500"}
-                `
-              }
+                ${key == "0,0" && "bg-green-300"}
+                ${key == `${maxX - 1},${maxY - 1}` && "bg-amber-500"}
+                ${steppeds?.includes(key) ? "bg-amber-500" : ""}
+                `}
               style={borders}
             >
-             
+              {`${key}`}
             </div>
           );
         })

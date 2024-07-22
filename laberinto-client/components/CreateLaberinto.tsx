@@ -8,25 +8,6 @@ type propsT = {
 };
 
 export default function CreateLaberinto({ setData }: propsT) {
-  const handleCreate = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const cols = (document.getElementById('col') as HTMLInputElement).value;
-    const rows = (document.getElementById('row') as HTMLInputElement).value;
-    axios
-      .post("http://localhost:8080/laberinto/create", null, {
-        params: {
-          row: rows,
-          col: cols,
-        },
-      })
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error creating the labyrinth:", error);
-      });
-  };
-
   
   return (
     <form className="flex h-10 gap-6">
