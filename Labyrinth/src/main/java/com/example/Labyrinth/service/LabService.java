@@ -1,116 +1,68 @@
 package com.example.Labyrinth.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
-
-import com.example.Labyrinth.model.Celda;
 import com.example.Labyrinth.model.Grapho;
-import com.example.Labyrinth.model.NodeGraph;
 
 @Service
 public class LabService {
 
+    public LabService() {
+    }
+
     Random rand = new Random();
+    Grapho laberinto;
+    Laberinto creator = new Laberinto();
 
     /**
-     * Metodo para conocer el representante (parent) de un conjunto: 
-     *  - Kruskal
-     *  - Union-find
-    */
-    private int find(int[] parent, int i) {
-        if (parent[i] == i) {
-            return i;
-        } else {
-            return parent[i] = find(parent, parent[i]);
-        }
+     * Este método crea un laberinto con el número de filas y columnas especificado
+     * y devuelve un mapa del laberinto donde cada celda está mapeada a sus celdas conectadas.
+     *
+     * @param row El número de filas del laberinto.
+     * @param col El número de columnas del laberinto.
+     * @return Un mapa donde las claves son los IDs de las celdas y los valores son listas de IDs de celdas conectadas.
+     */
+    public Map<String, List<String>> createLabyrinth(int row, int col) {
+        laberinto = creator.createGraph(row, col);
+        return creator.getLabyrinthMap(laberinto);
     }
 
     /**
-     * Metodo para incluir un conjunto en otro, concervando
-     * el representante (parent) del primero 
-     * - Kruskal
-     * - Union-find
-    */
-    private void union(int[] parent, int x, int y) {
-        int rootX = find(parent, x);
-        int rootY = find(parent, y);
-        if (rootX != rootY) {
-            parent[rootY] = rootX;
-        }
+     * Este método encuentra un camino en el laberinto utilizando el algoritmo de búsqueda en profundidad (DFS).
+     *
+     * @return Una lista de cadenas que representa el camino encontrado por DFS.
+     */
+    public List<String> pathDFS() {
+        return new DFS().serviceGetDFS(laberinto);
     }
 
     /**
-     * Metodo llamado desde el controllador
-     * la cual es nuestra full rest / rest api
-     * 
-     * RESULTANTE:
-         * 
-                * {
-                *      celda: [celdaConocida1, celdaConocida2],
-                *      celda: [celdaConocida2],
-                *      celda: [celdaConocida1, celdaConocida2, celdaConocida3, celdaConocida4],
-                *      celda: [celdaConocida1, celdaConocida2, celdaConocida3],
-                * }
-    */
-    public Map<String, List<String>> createLabyrinth(int filas, int columnas) {
-        Grapho laberinto = new Grapho(filas, columnas);
-        List<NodeGraph<Celda>> nodes = laberinto.getAllCeldas();
-        List<int[]> edges = new ArrayList<>();
-        int[] parent = new int[filas * columnas];
+     * Este método encuentra un camino en el laberinto utilizando el algoritmo de búsqueda en anchura (BFS).
+     *
+     * @return Una lista de cadenas que representa el camino encontrado por BFS.
+     */
+    public List<String> pathBFS() {
+        return new BFS().serviceGetBFS(laberinto);
+    }
 
+    /**
+     * Este método encuentra un camino en el laberinto utilizando un enfoque recursivo simple.
+     *
+     * @return Una lista de cadenas que representa el camino encontrado recursivamente.
+     */
+    public List<String> pathRecursive() {
+        return new SimpleRecursive().serviceGetRecursive(laberinto);
+    }
 
-        for (int i = 0; i < parent.length; i++) {
-            parent[i] = i;
-        }
-
-        // Crear todas las posibles aristas
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                int index = i * columnas + j;
-                if (j < columnas - 1) { // Pared hacia la derecha
-                    edges.add(new int[]{index, index + 1});
-                }
-                if (i < filas - 1) { // Pared hacia abajo
-                    edges.add(new int[]{index, index + columnas});
-                }
-            }
-        }
-
-        // Mezclar y seleccionar aristas utilizando Kruskal
-        Collections.shuffle(edges);
-        for (int[] edge : edges) {
-            int src = edge[0];
-            int dest = edge[1];
-
-            if (find(parent, src) != find(parent, dest)) {
-                union(parent, src, dest);
-                // Conectar nodos en el modelo de Grapho
-                laberinto.addRute(nodes.get(src), nodes.get(dest));
-            }
-        }
-
-        /**
-         * Retorno de estructura MAP 
-         * {
-         *  Llave: Celda actual
-         *  Valor: Lista de celdas conocidas
-         * }
-         */
-        Map<String, List<String>> caminos = new HashMap<>();
-        for (NodeGraph<Celda> nodo : nodes) {
-            List<String> conocidos = new ArrayList<>();
-            for (NodeGraph<Celda> cell : nodo.getAristas()) {
-                conocidos.add(cell.getValue().getId());
-            }
-            caminos.put(nodo.getValue().getId(), conocidos);
-        }
-
-        return caminos;
+    /**
+     * Este método encuentra un camino en el laberinto utilizando un enfoque de programación dinámica.
+     *
+     * @return Una lista de cadenas que representa el camino encontrado mediante programación dinámica.
+     */
+    public List<String> pathDinamic() {
+        return new Dinamic().serviceGetDinamic(laberinto);
     }
 }

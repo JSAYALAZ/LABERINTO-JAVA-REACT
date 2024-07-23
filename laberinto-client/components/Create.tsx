@@ -17,6 +17,10 @@ export default function Create({ setData }: propsT) {
         },
       })
       .then((response) => {
+        console.log("LABERINTO CREADO");
+        console.log("LABERINTO CREADO");
+        console.log("LABERINTO CREADO");
+        console.log(response.data);
         setData(response.data);
       })
       .catch((error) => {

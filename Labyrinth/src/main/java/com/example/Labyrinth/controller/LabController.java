@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.Labyrinth.service.LabService;;
+
+import com.example.Labyrinth.service.LabService;
 
 @RestController
 @RequestMapping("/laberinto")
@@ -21,31 +22,77 @@ public class LabController {
     private LabService service;
 
     /**
-     * /laberinto/create - POST
-     * Endpoint params row, col.
+     * Endpoint para crear un laberinto.
      * 
-     * @return
-     *         {
-     *         '0,0':['0,1', '1,1', '1,5'],
-     *         '0,0':['0,1', '1,1', '1,5'],
-     *         '0,0':['0,1', '1,1', '1,5'],
-     *         '0,0':['0,1', '1,1', '1,5'],
-     *         }
+     * /laberinto/create - POST
+     * 
+     * @param row El número de filas del laberinto.
+     * @param col El número de columnas del laberinto.
+     * @return Un mapa donde las claves son los IDs de las celdas y los valores son listas de IDs de celdas conectadas.
      */
     @PostMapping("/create")
-    public Map<String, List<String>> mover(@RequestParam int row, int col) {
+    public Map<String, List<String>> crear(@RequestParam int row, @RequestParam int col) {
+        service = new LabService();
         return service.createLabyrinth(row, col);
     }
 
     /**
-     * /laberinto/create - GET
-     * Endpoint pruebas
+     * Endpoint para obtener un camino en el laberinto utilizando el algoritmo de búsqueda en profundidad (DFS).
      * 
-     * @return
+     * /laberinto/dfs - GET
+     * 
+     * @return Una lista de cadenas que representa el camino encontrado por DFS.
      */
-    @GetMapping("/create")
-    public Map<String, List<String>> mover() {
-        return service.createLabyrinth(5, 8);
+    @GetMapping("/dfs")
+    public List<String> DFS() {
+        return service.pathDFS();
     }
 
+    /**
+     * Endpoint para obtener un camino en el laberinto utilizando un enfoque recursivo simple.
+     * 
+     * /laberinto/recursivoSimple - GET
+     * 
+     * @return Una lista de cadenas que representa el camino encontrado recursivamente.
+     */
+    @GetMapping("/recursivoSimple")
+    public List<String> recursivoSimple() {
+        return service.pathRecursive();
+    }
+
+    /**
+     * Endpoint para obtener un camino en el laberinto utilizando un enfoque de programación dinámica.
+     * 
+     * /laberinto/dinamic - GET
+     * 
+     * @return Una lista de cadenas que representa el camino encontrado mediante programación dinámica.
+     */
+    @GetMapping("/dinamic")
+    public List<String> getProDinamic() {
+        return service.pathDinamic();
+    }
+
+    /**
+     * Endpoint para obtener un camino en el laberinto utilizando el algoritmo de búsqueda en anchura (BFS).
+     * 
+     * /laberinto/bfs - GET
+     * 
+     * @return Una lista de cadenas que representa el camino encontrado por BFS.
+     */
+    @GetMapping("/bfs")
+    public List<String> getPathBFS() {
+        return service.pathBFS();
+    }
+
+    /**
+     * Endpoint de prueba para crear un laberinto con dimensiones predefinidas.
+     * 
+     * /laberinto/create - GET
+     * 
+     * @return Un mapa donde las claves son los IDs de las celdas y los valores son listas de IDs de celdas conectadas.
+     */
+    @GetMapping("/create")
+    public Map<String, List<String>> crear() {
+        return service.createLabyrinth(3, 3);
+    }
 }

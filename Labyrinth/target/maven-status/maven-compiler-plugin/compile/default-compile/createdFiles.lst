@@ -1,4 +1,12 @@
-com\example\Labyrinth\config\CorsConfig.class
 com\example\Labyrinth\LabyrinthApplication.class
+com\example\Labyrinth\service\DFS.class
+com\example\Labyrinth\service\Laberinto.class
 com\example\Labyrinth\controller\LabController.class
+com\example\Labyrinth\service\SimpleRecursive.class
+com\example\Labyrinth\service\BFS.class
+com\example\Labyrinth\model\Celda.class
+com\example\Labyrinth\config\CorsConfig.class
+com\example\Labyrinth\service\Dinamic.class
+com\example\Labyrinth\model\NodeGraph.class
+com\example\Labyrinth\model\Grapho.class
 com\example\Labyrinth\service\LabService.class
