@@ -22,8 +22,10 @@ public class SimpleRecursive {
     public List<String> serviceGetRecursive(Grapho laberinto) {
         List<String> path = new ArrayList<>();
         Set<String> visited = new HashSet<>(); // Para evitar ciclos
-        getRecursiveUtil(laberinto, laberinto.getCelda(0, 0), 0, 0, path, visited);
-        Collections.reverse(path); // Revertimos el path para que el orden sea desde el inicio hasta el final
+        NodeGraph<Celda> start = laberinto.getCelda(0, 0);
+        if (getRecursiveUtil(laberinto, start, laberinto.getSizeX() - 1, laberinto.getSizeY() - 1, path, visited)) {
+            Collections.reverse(path); // Revertimos el path para que el orden sea desde el inicio hasta el final
+        }
         return path;
     }
 
@@ -31,48 +33,41 @@ public class SimpleRecursive {
      * Método recursivo para encontrar un camino en el laberinto.
      *
      * @param laberinto El grafo que representa el laberinto.
-     * @param grid La celda actual en el grafo.
-     * @param row La fila de la celda actual.
-     * @param col La columna de la celda actual.
+     * @param node La celda actual en el grafo.
+     * @param finalRow La fila de la celda final.
+     * @param finalCol La columna de la celda final.
      * @param path La lista que almacena el camino encontrado.
      * @param visited Conjunto que almacena los IDs de las celdas visitadas para evitar ciclos.
      * @return true si se encontró un camino desde la celda actual hasta la celda final, false en caso contrario.
      */
-    private boolean getRecursiveUtil(Grapho laberinto, NodeGraph<Celda> grid, int row, int col, List<String> path,
-            Set<String> visited) {
-
-        // Verificar si la celda actual está fuera de los límites del laberinto
-        if (row < 0 || col < 0 || row >= laberinto.getSizeY() || col >= laberinto.getSizeX()) {
-            return false;
+    private boolean getRecursiveUtil(Grapho laberinto, NodeGraph<Celda> node, int finalRow, int finalCol, List<String> path, Set<String> visited) {
+        if (node == null) {
+            return false; // Salir si el nodo es nulo
         }
 
-        // Crear una nueva celda con la posición actual
-        Celda point = new Celda(row + "," + col);
+        Celda current = node.getValue();
 
         // Verificar si la celda ya ha sido visitada
-        if (visited.contains(point.getId())) {
-            return false;
+        if (!visited.add(current.getId())) {
+            return false; // Si ya fue visitada, retornar falso
         }
-
-        visited.add(point.getId());
 
         // Verificar si hemos llegado a la última celda
-        boolean isAtEnd = (row == laberinto.getSizeY() - 1) && (col == laberinto.getSizeX() - 1);
-        if (isAtEnd) {
-            path.add(point.getId());
+        if (Integer.parseInt(current.getId().split(",")[0]) == finalRow && Integer.parseInt(current.getId().split(",")[1])== finalCol) {
+            path.add(current.getId());
             return true;
         }
 
-        // Intentar moverse a la derecha, hacia abajo, hacia la izquierda o hacia arriba recursivamente
-        if (getRecursiveUtil(laberinto, grid, row, col + 1, path, visited) ||  // Moverse a la derecha
-            getRecursiveUtil(laberinto, grid, row + 1, col, path, visited) ||  // Moverse hacia abajo
-            getRecursiveUtil(laberinto, grid, row, col - 1, path, visited) ||  // Moverse hacia la izquierda
-            getRecursiveUtil(laberinto, grid, row - 1, col, path, visited)) {  // Moverse hacia arriba
-            path.add(point.getId());
-            return true;
+        // Explorar todos los nodos conectados
+        for (NodeGraph<Celda> neighbor : node.getArista()) {
+            if (getRecursiveUtil(laberinto, neighbor, finalRow, finalCol, path, visited)) {
+                path.add(current.getId());
+                return true;
+            }
         }
 
-        visited.remove(point.getId());
+        // Si no se encontró un camino, desmarcar la visita
+        visited.remove(current.getId());
         return false;
     }
 }

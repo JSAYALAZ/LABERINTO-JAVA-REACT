@@ -13,66 +13,73 @@ import com.example.Labyrinth.model.NodeGraph;
 public class Dinamic {
 
     /**
-     * Este método encuentra un camino desde la celda inicial (0,0) hasta la celda final (sizeY-1, sizeX-1)
-     * en un laberinto utilizando un enfoque de programación dinámica con memorización.
+     * Encuentra un camino desde la celda inicial hasta la celda final en un laberinto.
      *
-     * @param laberinto Un objeto Grapho que representa el laberinto.
-     * @return Una lista de cadenas que representa el camino desde la celda inicial hasta la celda final.
+     * @param laberinto El objeto Grapho que representa el laberinto.
+     * @return Una lista de cadenas que representan el camino desde la celda inicial hasta la final.
      */
     public List<String> serviceGetDinamic(Grapho laberinto) {
+        // Lista para almacenar el camino encontrado.
         List<String> path = new ArrayList<>();
-
-        // Mapa para almacenar si ya visitamos una celda y si es parte del camino
-        Map<Celda, Boolean> cache = new HashMap<>();
-        if (getDinamicUtil(laberinto, laberinto.getCelda(0, 0), 0, 0, path, cache)) {
-            Collections.reverse(path); // Revertimos el path para que el orden sea desde el inicio hasta el final
+        // Celda inicial
+        NodeGraph<Celda> start = laberinto.getCelda(0, 0);
+        // Cache para memorizar celdas visitadas y si forman parte de un camino válido.
+        Map<NodeGraph<Celda>, Boolean> cache = new HashMap<>();
+        
+        // Inicia la búsqueda desde la celda inicial
+        if (findPathUtil(start, path, cache, laberinto)) {
+            Collections.reverse(path); // El camino se recoge en orden inverso, así que lo invertimos.
             return path;
         }
-        return path;
+        return Collections.emptyList(); // Devuelve una lista vacía si no hay camino.
     }
 
     /**
-     * Método recursivo con memorización para encontrar un camino en el laberinto.
+     * Método auxiliar para encontrar el camino mediante programación dinámica y memorización.
      *
-     * @param laberinto El grafo que representa el laberinto.
-     * @param grid La celda actual en el grafo.
-     * @param row La fila de la celda actual.
-     * @param col La columna de la celda actual.
-     * @param path La lista que almacena el camino encontrado.
-     * @param cache Mapa que almacena los resultados de las celdas visitadas.
-     * @return true si se encontró un camino desde la celda actual hasta la celda final, false en caso contrario.
+     * @param node El nodo actual en el laberinto.
+     * @param path Lista que almacena el camino encontrado.
+     * @param cache Mapa para memorización de los resultados.
+     * @param laberinto El grafo del laberinto.
+     * @return true si existe un camino hasta la celda final.
      */
-    private boolean getDinamicUtil(Grapho laberinto, NodeGraph<Celda> grid, int row, int col, List<String> path,
-            Map<Celda, Boolean> cache) {
-
-        // Verificar si la celda actual está fuera de los límites del laberinto
-        if (row < 0 || col < 0 || row >= laberinto.getSizeY() || col >= laberinto.getSizeX()) {
-            return false;
+    private boolean findPathUtil(NodeGraph<Celda> node, List<String> path, Map<NodeGraph<Celda>, Boolean> cache, Grapho laberinto) {
+        if (node == null) {
+            return false; // Si el nodo es nulo, regresa falso inmediatamente.
         }
-        Celda point = new Celda(row + "," + col);
+        Celda current = node.getValue();
+        
 
-        // Verificar el cache
-        if (cache.containsKey(point)) {
-            return cache.get(point);
-        }
-
-        // Verificar si hemos llegado a la última celda
-        boolean isAtEnd = (row == laberinto.getSizeY() - 1) && (col == laberinto.getSizeX() - 1);
-        if (isAtEnd) {
-            path.add(point.getId());
-            cache.put(point, true);
+        // Verifica si es la celda final
+        if (current.equals(laberinto.getCelda(laberinto.getSizeX() - 1, laberinto.getSizeY() - 1).getValue())) {
+            path.add(current.getId());
             return true;
         }
-
-        // Intentar moverse a la derecha o hacia abajo recursivamente
-        boolean success = getDinamicUtil(laberinto, grid, row, col + 1, path, cache)
-                || getDinamicUtil(laberinto, grid, row + 1, col, path, cache);
-        if (success) {
-            path.add(point.getId());
+    
+        // Marcar el nodo como visitado para evitar ciclos
+        if (cache.containsKey(node) && cache.get(node)) {
+            return false; // Si el nodo ya fue visitado y no formó parte de un camino válido, retornar falso
         }
-
-        // Almacenar el resultado en el cache
-        cache.put(point, success);
-        return success;
+        cache.put(node, true); // Marcar como visitado
+    
+        boolean hasPath = false;
+        // Itera sobre cada vecino conectado
+        for (NodeGraph<Celda> neighbor : node.getArista()) {
+            // Sólo procesa vecinos no visitados o que no están en cache
+            if (!cache.containsKey(neighbor) || !cache.get(neighbor)) {
+                hasPath = findPathUtil(neighbor, path, cache, laberinto);
+                if (hasPath) {
+                    path.add(current.getId());
+                    break;
+                }
+            }
+        }
+    
+        // Si no se encontró un camino desde este nodo, desmarcarlo (esto es parte del backtracking)
+        if (!hasPath) {
+            cache.put(node, false);
+        }
+    
+        return hasPath;
     }
 }

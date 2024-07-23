@@ -12,43 +12,41 @@ import com.example.Labyrinth.model.Grapho;
 import com.example.Labyrinth.model.NodeGraph;
 
 public class BFS {
-
+    
     /**
      * Este método realiza una búsqueda en anchura (BFS) en un grafo de laberinto
-     * para explorar todas las celdas accesibles desde la celda inicial (0,0).
+     * para encontrar el camino más corto desde la celda inicial (0,0) hasta la celda final (sizeY-1, sizeX-1).
      *
      * @param laberinto Un objeto Grapho que representa el laberinto.
-     * @return Una lista de cadenas que representa los IDs de las celdas visitadas en el orden de visita.
+     * @return Una lista de cadenas que representa el camino desde la celda inicial hasta la celda final.
      */
     public List<String> serviceGetBFS(Grapho laberinto) {
-        // Mapa para rastrear las celdas visitadas
+        // Cola para BFS y mapa para almacenar el camino
+        Queue<NodeGraph<Celda>> cola = new LinkedList<>();
         Map<String, Boolean> visited = new LinkedHashMap<>();
-        // Cola para BFS
-        Queue<NodeGraph<Celda>> queue = new LinkedList<>();
-
-        // Obtener la celda inicial
+        
+        // Celdas inicial y final
         NodeGraph<Celda> startNode = laberinto.getCelda(0, 0);
-
-        // Iniciar BFS si la celda inicial no es nula
+        
         if (startNode != null) {
-            queue.add(startNode);
+            cola.add(startNode);
             visited.put(startNode.getValue().getId(), true);
 
-            while (!queue.isEmpty()) {
-                NodeGraph<Celda> currentNode = queue.poll();
+            while (!cola.isEmpty()) {
+                NodeGraph<Celda> currentNode = cola.poll();
 
                 // Recorrer todos los vecinos de la celda actual
                 for (NodeGraph<Celda> neighbor : currentNode.getArista()) {
                     // Si el vecino no ha sido visitado, añadirlo a la cola y marcarlo como visitado
                     if (!visited.getOrDefault(neighbor.getValue().getId(), false)) {
-                        queue.add(neighbor);
+                        cola.add(neighbor);
                         visited.put(neighbor.getValue().getId(), true);
                     }
                 }
             }
         }
-
-        // Devolver la lista de celdas visitadas
+        
+        // Reconstruir el camino si se encontró
         return new ArrayList<>(visited.keySet());
     }
 }
