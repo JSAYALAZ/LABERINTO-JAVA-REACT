@@ -1,7 +1,7 @@
 # Proyecto Laberinto
 
 # Proyecto Final
-[alt text](ups1.jpeg)
+[alt text](ups2.jpeg)
 ## Ciclo
 2do Ciclo
 
