@@ -1,193 +1,124 @@
 # Proyecto Laberinto
 
-## Descripción del problema
+# Proyecto Final
+![alt text](ups2.jpeg)
+## Ciclo
+2do Ciclo
 
-Un jugador está en la esquina superior izquierda (0,0) de un tablero m x n. En el tablero hay celdas transitables (`true`) y no transitables (`false`). El objetivo es encontrar un camino válido para ir a la esquina inferior derecha, sabiendo que solo se puede mover hacia abajo y hacia la derecha.
+## Integrantes
+- José Ayala
+- Rafael Prieto
+- Steven Chimbo
 
-### Ejemplo 1:
+## Materia
+Estructura de Datos
 
-Input:
-[
-[true, true, true, true],
-[false, false, false, true],
-[true, true, false, true],
-[true, true, false, true]
-]
+## Profesor
+Pablo Torres
 
-Output: `[(0,0), (0,1), (0,2), (0,3), (1,3), (2,3), (3,3)]`
+## Semestre
+2024-2024
 
-### Ejemplo 2:
+## Informe del Proyecto Final: Algoritmo de Laberinto Aplicando Programación Dinámica y Estructura de Datos
+Universidad Politécnica Salesiana
 
-Input:
-[
-[true, true, true, true],
-[false, true, true, true],
-[true, true, false, false],
-[true, true, true, true]
-]
+Integrantes de la Practica: José Ayala, Rafael Prieto y Steven Chimbo.
+[Incluir enlace repositorio remoto del proyecto]
 
-Output: `[(0,0), (0,1), (1,1), (2,1), (3,1), (3,2), (3,3)]`
+## Correos institucionales
+- ayalaz1@est.ups.edu.ec
+- pprietos@est.ups.edu.ec
+- schimboc@est.ups.edu.ec
+
+## Descripción del Problema
+El problema consiste en encontrar el camino más corto entre dos puntos, A que es el inicio y B el destino hacia dónde queremos llegar, en un laberinto definido como una matriz de celdas. Cada celda puede ser transitable o no transitable. Utilizaremos una combinación de algoritmos de búsqueda y una interfaz web para visualización.
+
+## Propuesta de Solución
+Implementaremos y compararemos cuatro algoritmos distintos para resolver el problema:
+1. **Método Recursivo Simple**: Explora todos los caminos posibles desde el punto de inicio hasta el destino de manera recursiva. Es sencillo pero ineficiente para laberintos grandes debido a su alta complejidad temporal (exponencial).
+2. **Método de Programación Dinámica**: Utiliza una tabla de memorización para almacenar resultados parciales y evitar cálculos redundantes. Más eficiente que el método recursivo simple, pero puede ser complicado de implementar.
+3. **Búsqueda en Anchura (BFS)**: Explora los nodos del laberinto nivel por nivel, garantizando encontrar el camino más corto en un laberinto no ponderado. Eficiente en términos de tiempo y memoria, ideal para este tipo de problemas.
+4. **Búsqueda en Profundidad (DFS)**: Explora los caminos posibles profundizando en cada camino antes de retroceder. No garantiza encontrar el camino más corto, pero útil para explorar todos los posibles caminos.
+
+## Implementación
+### Estructura del Proyecto
+- Se utilizará Java para implementar la lógica de los algoritmos.
+- La interfaz gráfica se implementará usando HTML y JavaScript para visualizar el laberinto y los caminos encontrados.
+
+### Funciones Clave
+- Visualización del laberinto: Celdas transitables y no transitables.
+- Entrada del usuario para definir los puntos A (inicio) y B (destino).
+- Botones para seleccionar y ejecutar diferentes algoritmos.
+- Mostrar el camino más corto encontrado por el algoritmo seleccionado.
 
 ## Marco Teórico
+### BFS (Breadth-First Search)
+BFS es un algoritmo de búsqueda en grafos que explora todos los nodos a un mismo nivel antes de pasar al siguiente nivel. Es útil para encontrar el camino más corto en un laberinto o grafo no ponderado.
+
+### DFS (Depth-First Search)
+DFS es un algoritmo de búsqueda en grafos que explora lo más profundamente posible en una rama antes de retroceder. Aunque no garantiza encontrar el camino más corto, es útil para explorar todas las posibles rutas.
 
 ### Programación Dinámica
-La programación dinámica es una técnica de optimización que se utiliza para resolver problemas complejos dividiéndolos en subproblemas más simples y almacenando los resultados de estos subproblemas para evitar cálculos redundantes. En este proyecto, se usa para almacenar los resultados de las celdas visitadas y así mejorar la eficiencia del algoritmo.
+La programación dinámica es una técnica de optimización que se utiliza para resolver problemas complejos dividiéndolos en subproblemas más simples. Utiliza una tabla para almacenar los resultados de los subproblemas ya resueltos para evitar cálculos redundantes.
+- **Definición**: Estrategia de optimización que soluciona cada subproblema una sola vez y guarda su resultado.
+- **Aplicación en Laberintos**: Puede ser usada para calcular el camino más corto almacenando las distancias mínimas desde el punto inicial a cada celda.
+- **Complejidad**: Depende del problema específico, pero suele mejorar significativamente el rendimiento comparado con métodos recursivos sin optimización.
 
-### Búsqueda en Profundidad (DFS)
-La búsqueda en profundidad (DFS) es un algoritmo de búsqueda que se adentra en las ramas del grafo hasta llegar al final de una rama antes de retroceder y explorar otras ramas. Es útil para problemas donde se necesita explorar todos los posibles caminos.
+### Métodos Recursivos
+Los métodos recursivos implican que una función se llama a sí misma para resolver subproblemas. Aunque pueden ser intuitivos y fáciles de implementar, pueden ser ineficientes debido a la redundancia en los cálculos y la alta complejidad temporal.
+- **Definición**: Técnica donde la solución de un problema depende de soluciones a instancias más pequeñas del mismo problema.
+- **Aplicación en Laberintos**: Se puede usar para explorar todos los posibles caminos, pero puede ser ineficiente para laberintos grandes.
+- **Complejidad**: Exponencial en el peor de los casos.
 
-### Búsqueda en Anchura (BFS)
-La búsqueda en anchura (BFS) es un algoritmo de búsqueda que explora todas las celdas adyacentes de una celda antes de profundizar en cada una de ellas. Es ideal para encontrar el camino más corto en un grafo no ponderado.
+### Visualización en la Web
+La visualización del laberinto en HTML. La interacción entre la lógica de los algoritmos implementados en Java y la visualización en la web es crucial para proporcionar una experiencia de usuario intuitiva.
+- **HTML**: Lenguaje de marcado utilizado para estructurar el contenido de la web.
 
-## Descripción de la propuesta de solución
+## Descripción de la Propuesta de Solución
+- **Método Recursivo Simple**: Se explora cada posible movimiento desde la posición actual hasta encontrar el destino. Se implementa una función recursiva que intenta mover en todas las direcciones (arriba, abajo, izquierda, derecha).
+- **Método Aplicando Caché (Programación Dinámica)**: Similar al método recursivo, pero utilizando una tabla para almacenar las soluciones de subproblemas ya resueltos. Esto evita cálculos redundantes y mejora la eficiencia.
+- **BFS (Breadth-First Search)**: Utiliza una cola para explorar cada nivel del laberinto. Marca las celdas visitadas para evitar ciclos y caminos redundantes.
+- **DFS (Depth-First Search)**: Utiliza una pila para explorar profundamente en una dirección antes de retroceder. También marca las celdas visitadas para evitar ciclos.
 
-### Herramientas y Lenguajes Utilizados
-- **Lenguaje**: Java
-- **Estructuras de Datos**: Lista de Adyacencia para representar el grafo, `List<String>` para almacenar los caminos.
-- **Algoritmos**: DFS, BFS, Programación Dinámica.
+## Herramientas y/o Lenguajes Utilizados
+- **Lenguajes**: Java, HTML
+- **Herramientas**: Visual Studio Code
 
-### Solución Implementada
+## Criterio por Integrante de la Propuesta
+Cada integrante del equipo evaluará los siguientes criterios:
+- **José Ayala**: Eficiencia del Algoritmo en cuanto al tiempo de ejecución y uso de memoria.
+- **Steven Chimbo**: Claridad del Código en cuanto facilidad de lectura y mantenimiento.
+- **Rafael Prieto**: Correctitud del Algoritmo en cuanto a la Verificación de que el algoritmo encuentra el camino correcto.
 
-1. **Definición de la estructura del grafo**:
-   - Usamos `Map<String, List<String>>` para representar el grafo, donde cada celda es una clave y sus valores son las celdas adyacentes transitables.
+## Capturas de la Implementación Final de la UI
+![alt text](interfaz1.jpeg)
+![alt text](interfaz2.jpeg)
 
-2. **Método `buildGraph`**:
-   - Construimos el grafo a partir de una matriz de booleanos. Por cada celda transitable (`true`), añadimos las celdas adyacentes (abajo y derecha) al grafo.
 
-3. **Método `addEdge`**:
-   - Añade una arista (conexión) en el grafo entre dos celdas.
+## Conclusiones
+### Comparación de Métodos
+- **Recursiva (DFS)**
+  - Pros: Fácil de implementar, buena para encontrar cualquier camino.
+  - Contras: Puede ser ineficiente en términos de tiempo y espacio para laberintos grandes debido a la profundidad de la recursión.
 
-4. **Método `getPathDFS` y `dfs`**:
-   - Implementa la búsqueda DFS. Utilizamos un `Set<String>` para rastrear las celdas visitadas y un `List<String>` para almacenar el camino.
-   - El método `dfs` realiza la búsqueda recursiva. Si encuentra el final, construye el camino.
+- **Búsqueda en Anchura (BFS)**
+  - Pros: Garantiza encontrar el camino más corto en un grafo no ponderado.
+  - Contras: Puede consumir más memoria debido a la necesidad de almacenar todos los nodos en el nivel actual.
 
-5. **Método `getPathBFS`**:
-   - Implementa la búsqueda BFS. Utilizamos una `Queue<String>` para manejar la búsqueda en anchura y un `Map<String, String>` para rastrear los padres de cada celda, lo que nos permite construir el camino.
+- **Programación Dinámica**
+  - Pros: Optimiza el tiempo de ejecución al almacenar los resultados de subproblemas ya resueltos.
+  - Contras: La implementación puede ser más compleja y requiere memoria adicional para almacenar los resultados.
 
-6. **Método `getBestPath`**:
-   - Compara los caminos devueltos por DFS y BFS, y selecciona el más corto.
-
-### Código Implementado
-
-```java
-import java.util.*;
-
-public class LaberintoGraph {
-
-    private Map<String, List<String>> graph = new HashMap<>();
-
-    private void addEdge(String from, String to) {
-        graph.computeIfAbsent(from, k -> new ArrayList<>()).add(to);
-    }
-
-    public void buildGraph(boolean[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j]) {
-                    String cell = i + "," + j;
-                    if (i + 1 < rows && grid[i + 1][j]) addEdge(cell, (i + 1) + "," + j);
-                    if (j + 1 < cols && grid[i][j + 1]) addEdge(cell, i + "," + (j + 1));
-                }
-            }
-        }
-    }
-
-    public List<String> getPathDFS() {
-        List<String> path = new ArrayList<>();
-        Set<String> visited = new HashSet<>();
-        String start = "0,0";
-        String end = (graph.size() - 1) + "," + (graph.size() - 1);
-        if (dfs(start, end, visited, path)) {
-            Collections.reverse(path);
-            return path;
-        }
-        return new ArrayList<>();
-    }
-
-    private boolean dfs(String current, String end, Set<String> visited, List<String> path) {
-        if (!graph.containsKey(current) || visited.contains(current)) return false;
-        visited.add(current);
-        if (current.equals(end)) {
-            path.add(current);
-            return true;
-        }
-        for (String neighbor : graph.get(current)) {
-            if (dfs(neighbor, end, visited, path)) {
-                path.add(current);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<String> getPathBFS() {
-        List<String> path = new ArrayList<>();
-        Queue<String> queue = new LinkedList<>();
-        Map<String, String> parent = new HashMap<>();
-        String start = "0,0";
-        String end = (graph.size() - 1) + "," + (graph.size() - 1);
-        queue.add(start);
-        parent.put(start, null);
-
-        while (!queue.isEmpty()) {
-            String current = queue.poll();
-            if (current.equals(end)) {
-                while (current != null) {
-                    path.add(current);
-                    current = parent.get(current);
-                }
-                Collections.reverse(path);
-                return path;
-            }
-            for (String neighbor : graph.getOrDefault(current, new ArrayList<>())) {
-                if (!parent.containsKey(neighbor)) {
-                    queue.add(neighbor);
-                    parent.put(neighbor, current);
-                }
-            }
-        }
-        return new ArrayList<>();
-    }
-
-    public List<String> getBestPath() {
-        List<String> pathDFS = getPathDFS();
-        List<String> pathBFS = getPathBFS();
-
-        if (pathDFS.isEmpty()) return pathBFS;
-        if (pathBFS.isEmpty()) return pathDFS;
-
-        return (pathDFS.size() < pathBFS.size()) ? pathDFS : pathBFS;
-    }
-
-    public static void main(String[] args) {
-        boolean[][] grid = {
-            {true, true, true, true},
-            {false, false, false, true},
-            {true, true, false, true},
-            {true, true, false, true}
-        };
-
-        LaberintoGraph laberinto = new LaberintoGraph();
-        laberinto.buildGraph(grid);
-        List<String> bestPath = laberinto.getBestPath();
-        System.out.println("Mejor camino encontrado: " + bestPath);
-    }
-}
-Conclusiones
-Comparación de Métodos
-Recursiva (DFS)
-
-Pros: Fácil de implementar, buena para encontrar cualquier camino.
-Contras: Puede ser ineficiente en términos de tiempo y espacio para laberintos grandes debido a la profundidad de la recursión.
-Búsqueda en Anchura (BFS)
-
-Pros: Garantiza encontrar el camino más corto en un grafo no ponderado.
-Contras: Puede consumir más memoria debido a la necesidad de almacenar todos los nodos en el nivel actual.
-Programación Dinámica
-
-Pros: Optimiza el tiempo de ejecución al almacenar los resultados de subproblemas ya resueltos.
-Contras: La implementación puede ser más compleja y requiere memoria adicional para almacenar los resultados.
-Mejor Opción
+### Mejor Opción
 La mejor opción para encontrar el camino más corto en un laberinto es la Búsqueda en Anchura (BFS). Esto se debe a que BFS explora todos los caminos posibles nivel por nivel, garantizando así el camino más corto en un grafo no ponderado. Aunque puede consumir más memoria, su capacidad para encontrar la solución óptima de manera consistente la hace superior a otros métodos en términos de encontrar el camino más corto.
+
+### Consideraciones
+#### Posibles Mejoras
+- Implementación del algoritmo A* para considerar laberintos con pesos en las celdas.
+- Optimización de la memoria utilizando estructuras de datos más eficientes.
+- Extensión a laberintos tridimensionales.
+
+Cada estudiante podría enfocarse en:
+- **Steven Chimbo**: Investigación y documentación de algoritmos de búsqueda.
+- **José Ayala**: Desarrollo de la interfaz de usuario y visualización de rutas.
+- **Rafael Prieto**: Pruebas y validación de los algoritmos implementados.
