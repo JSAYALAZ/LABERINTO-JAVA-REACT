@@ -45,7 +45,7 @@ public class LabController {
      * @return Una lista de cadenas que representa el camino encontrado por DFS.
      */
     @GetMapping("/dfs")
-    public List<String> DFS() {
+    public Summary DFS() {
         return service.pathDFS();
     }
 
@@ -57,7 +57,7 @@ public class LabController {
      * @return Una lista de cadenas que representa el camino encontrado recursivamente.
      */
     @GetMapping("/recursivoSimple")
-    public List<String> recursivoSimple() {
+    public Summary recursivoSimple() {
         return service.pathRecursive();
     }
 
@@ -69,7 +69,7 @@ public class LabController {
      * @return Una lista de cadenas que representa el camino encontrado mediante programación dinámica.
      */
     @GetMapping("/dinamic")
-    public List<String> getProDinamic() {
+    public Summary getProDinamic() {
         return service.pathDinamic();
     }
 
@@ -81,13 +81,13 @@ public class LabController {
      * @return Una lista de cadenas que representa el camino encontrado por BFS.
      */
     @GetMapping("/bfs")
-    public List<String> getPathBFS() {
+    public Summary getPathBFS() {
         return service.pathBFS();
     }
-    @GetMapping("/best")
-    public Summary[] best() {
-        return service.extra();
-    }
+    // @GetMapping("/best")
+    // public Summary[] best() {
+    //     return service.extra();
+    // }
 
     /**
      * Endpoint de prueba para crear un laberinto con dimensiones predefinidas.

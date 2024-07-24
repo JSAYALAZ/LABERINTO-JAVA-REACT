@@ -36,7 +36,7 @@ public class LabService {
      *
      * @return Una lista de cadenas que representa el camino encontrado por DFS.
      */
-    public List<String> pathDFS() {
+    public Summary pathDFS() {
         return new DFS().serviceGetDFS(laberinto);
     }
 
@@ -45,7 +45,7 @@ public class LabService {
      *
      * @return Una lista de cadenas que representa el camino encontrado por BFS.
      */
-    public List<String> pathBFS() {
+    public Summary pathBFS() {
         return new BFS().serviceGetBFS(laberinto);
     }
 
@@ -54,7 +54,7 @@ public class LabService {
      *
      * @return Una lista de cadenas que representa el camino encontrado recursivamente.
      */
-    public List<String> pathRecursive() {
+    public Summary pathRecursive() {
         return new SimpleRecursive().serviceGetRecursive(laberinto);
     }
 
@@ -63,11 +63,11 @@ public class LabService {
      *
      * @return Una lista de cadenas que representa el camino encontrado mediante programación dinámica.
      */
-    public List<String> pathDinamic() {
+    public Summary pathDinamic() {
         return new Dinamic().serviceGetDinamic(laberinto);
     }
 
-    public Summary[] extra() {
-        return new MetodoExtra().getBestPath(laberinto);
-    }
+    // public Summary[] extra() {
+    //     return new MetodoExtra().getBestPath(laberinto);
+    // }
 }

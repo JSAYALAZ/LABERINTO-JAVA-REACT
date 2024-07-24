@@ -4,20 +4,21 @@ import java.util.List;
 
 public class Summary {
     private String name;
+    private String time;
     private List<String> recorrido;
     private List<String> respuesta;
     private int pasos;
 
-    public Summary(List<String> recorrido,List<String> respuesta, int pasos){
+    public Summary(List<String> recorrido, List<String> respuesta, int pasos) {
         this.recorrido = recorrido;
         this.respuesta = respuesta;
         this.pasos = pasos;
     }
-    public Summary(){
-        
+
+    public Summary() {
+
     }
 
-    
     public List<String> getRecorrido() {
         return recorrido;
     }
@@ -33,14 +34,14 @@ public class Summary {
     public void setPasos(int pasos) {
         this.pasos = pasos;
     }
-    
 
     @Override
     public String toString() {
-        return name+"={" +
+        return name + "={" +
                 "recorrido=" + recorrido +
                 "pasos" + pasos +
                 "respuesta" + respuesta +
+                "time" + time +
                 '}';
     }
 
@@ -51,11 +52,21 @@ public class Summary {
     public void setRespuesta(List<String> respuesta) {
         this.respuesta = respuesta;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 }

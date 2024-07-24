@@ -13,49 +13,37 @@ import com.example.Labyrinth.model.Summary;
 
 public class Dinamic {
 
-    /**
-     * Encuentra un camino desde la celda inicial hasta la celda final en un
-     * laberinto.
-     *
-     * @param laberinto El objeto Grapho que representa el laberinto.
-     * @return Una lista de cadenas que representan el camino desde la celda inicial
-     *         hasta la final.
-     */
-    public List<String> serviceGetDinamic(Grapho laberinto) {
-        // Lista para almacenar el camino encontrado.
+    public Summary serviceGetDinamic(Grapho laberinto) {
         List<String> path = new ArrayList<>();
-        // Celda inicial
+        List<String> allSteps = new ArrayList<>();
         NodeGraph<Celda> start = laberinto.getCelda(0, 0);
-        // Cache para memorizar celdas visitadas y si forman parte de un camino válido.
         Map<NodeGraph<Celda>, Boolean> cache = new HashMap<>();
 
-        // Inicia la búsqueda desde la celda inicial
-        if (findPathUtil(start, path, cache, laberinto)) {
+        long startTime = System.nanoTime();
+
+        if (findPathUtil(start, path, cache, laberinto, allSteps)) {
             Collections.reverse(path); // El camino se recoge en orden inverso, así que lo invertimos.
-            return path;
         }
-        return Collections.emptyList(); // Devuelve una lista vacía si no hay camino.
+
+        long endTime = System.nanoTime();
+       
+
+        Summary summary = new Summary();
+        summary.setName("Labyrinth Dynamic Solution");
+        summary.setTime(Double.toString((endTime-startTime)*10e-9));
+        summary.setRecorrido(allSteps);
+        summary.setRespuesta(path);
+        summary.setPasos(path.size());
+
+        return summary;
     }
 
-    /**
-     * Método auxiliar para encontrar el camino mediante programación dinámica y
-     * memorización.
-     *
-     * @param node      El nodo actual en el laberinto.
-     * @param path      Lista que almacena el camino encontrado.
-     * @param cache     Mapa para memorización de los resultados.
-     * @param laberinto El grafo del laberinto.
-     * @return true si existe un camino hasta la celda final.
-     */
-    private boolean findPathUtil(NodeGraph<Celda> node, List<String> path, Map<NodeGraph<Celda>, Boolean> cache,
-            Grapho laberinto) {
+    private boolean findPathUtil(NodeGraph<Celda> node, List<String> path, Map<NodeGraph<Celda>, Boolean> cache, Grapho laberinto, List<String> allSteps) {
         if (node == null) {
             return false; // Si el nodo es nulo, regresa falso inmediatamente.
         }
         Celda current = node.getValue();
-
-        // Imprimir el recorrido para depuración
-        System.out.println("Recorrido " + current.getId());
+        allSteps.add(current.getId()); // Añadir cada paso al recorrido total
 
         // Verifica si es la celda final
         if (current.equals(laberinto.getCelda(laberinto.getSizeX() - 1, laberinto.getSizeY() - 1).getValue())) {
@@ -65,8 +53,7 @@ public class Dinamic {
 
         // Marcar el nodo como visitado para evitar ciclos
         if (cache.containsKey(node) && cache.get(node)) {
-            return false; // Si el nodo ya fue visitado y no formó parte de un camino válido, retornar
-                          // falso
+            return false; // Si el nodo ya fue visitado y no formó parte de un camino válido, retornar falso
         }
         cache.put(node, true); // Marcar como visitado
 
@@ -75,7 +62,7 @@ public class Dinamic {
         for (NodeGraph<Celda> neighbor : node.getArista()) {
             // Sólo procesa vecinos no visitados o que no están en cache
             if (!cache.containsKey(neighbor) || !cache.get(neighbor)) {
-                hasPath = findPathUtil(neighbor, path, cache, laberinto);
+                hasPath = findPathUtil(neighbor, path, cache, laberinto, allSteps);
                 if (hasPath) {
                     path.add(current.getId());
                     break;
@@ -83,76 +70,11 @@ public class Dinamic {
             }
         }
 
-        // Si no se encontró un camino desde este nodo, desmarcarlo (esto es parte del
-        // backtracking)
+        // Si no se encontró un camino desde este nodo, desmarcarlo (esto es parte del backtracking)
         if (!hasPath) {
             cache.put(node, false);
         }
 
         return hasPath;
-    }
-
-    public List<String> getSteps(Grapho laberinto) {
-        // Lista para almacenar todos los pasos recorridos.
-        List<String> path = new ArrayList<>();
-        // Celda inicial
-        NodeGraph<Celda> start = laberinto.getCelda(0, 0);
-        // Cache para memorizar celdas visitadas y si forman parte de un camino válido.
-        Map<NodeGraph<Celda>, Boolean> cache = new HashMap<>();
-    
-        // Inicia la búsqueda desde la celda inicial
-        findPathUtilSteps(start, path, cache, laberinto);
-    
-        return path; // Devuelve la lista con todos los pasos recorridos.
-    }
-    
-    private boolean findPathUtilSteps(NodeGraph<Celda> node, List<String> path, Map<NodeGraph<Celda>, Boolean> cache,
-            Grapho laberinto) {
-        if (node == null) {
-            return false; // Si el nodo es nulo, regresa falso inmediatamente.
-        }
-        Celda current = node.getValue();
-    
-        // Agregar la celda actual a la lista de pasos recorridos
-        path.add(current.getId());
-    
-        // Verifica si es la celda final
-        if (current.equals(laberinto.getCelda(laberinto.getSizeX() - 1, laberinto.getSizeY() - 1).getValue())) {
-            return true;
-        }
-    
-        // Marcar el nodo como visitado para evitar ciclos
-        if (cache.containsKey(node) && cache.get(node)) {
-            return false; // Si el nodo ya fue visitado y no formó parte de un camino válido, retornar
-                          // falso
-        }
-        cache.put(node, true); // Marcar como visitado
-    
-        boolean hasPath = false;
-        // Itera sobre cada vecino conectado
-        for (NodeGraph<Celda> neighbor : node.getArista()) {
-            // Sólo procesa vecinos no visitados o que no están en cache
-            if (!cache.containsKey(neighbor) || !cache.get(neighbor)) {
-                hasPath = findPathUtilSteps(neighbor, path, cache, laberinto);
-                // No hacer break; ya que queremos recorrer todos los caminos
-            }
-        }
-    
-        // Si no se encontró un camino desde este nodo, desmarcarlo (esto es parte del
-        // backtracking)
-        if (!hasPath) {
-            cache.put(node, false);
-        }
-    
-        return hasPath;
-    }
-
-    public Summary summary(Grapho laberinto) {
-        Summary summary = new Summary();
-        summary.setRecorrido(getSteps(laberinto));
-        summary.setRespuesta(serviceGetDinamic(laberinto));
-        summary.setPasos(summary.getRecorrido().size());
-        summary.setName("dinamic");
-        return summary;
     }
 }

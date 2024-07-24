@@ -8,6 +8,7 @@ import java.util.Map;
 import com.example.Labyrinth.model.Celda;
 import com.example.Labyrinth.model.Grapho;
 import com.example.Labyrinth.model.NodeGraph;
+import com.example.Labyrinth.model.Summary;
 
 public class DFS {
 
@@ -18,19 +19,36 @@ public class DFS {
      * @param laberinto Un objeto Grapho que representa el laberinto.
      * @return Una lista de cadenas que representa los IDs de las celdas visitadas en el orden de visita.
      */
-    public List<String> serviceGetDFS(Grapho laberinto) {
+    public Summary serviceGetDFS(Grapho laberinto) {
         // Mapa para rastrear las celdas visitadas
         Map<String, Boolean> visited = new LinkedHashMap<>();
         // Obtener la celda inicial
         NodeGraph<Celda> startNode = laberinto.getCelda(0, 0);
 
         // Iniciar DFS si la celda inicial no es nula
+        long timeStart = System.nanoTime();
         if (startNode != null) {
-            getDFSUtil(startNode, visited);
+            getDFSUtil(startNode, visited,null);
+        }
+        long timeEnd = System.nanoTime();
+
+        Summary summary = new Summary();
+        summary.setPasos(visited.size());
+        summary.setName("dfs");
+        summary.setTime(Double.toString(((timeEnd-timeStart)*10e-9)));
+        summary.setRecorrido(new ArrayList<>(visited.keySet()));
+
+
+        List<String> recorridoRespuesta = new ArrayList<>();
+        NodeGraph<Celda> currentNode = laberinto.getCelda(laberinto.getSizeX()-1,laberinto.getSizeY()-1); // Suponiendo que hay un método para obtener el nodo objetivo
+        while (currentNode != null) {
+            recorridoRespuesta.add(0, currentNode.getValue().getId());
+            currentNode = currentNode.getPadre();
         }
 
+        summary.setRespuesta(recorridoRespuesta);
         // Devolver la lista de celdas visitadas
-        return new ArrayList<>(visited.keySet());
+        return summary;
     }
 
     /**
@@ -39,14 +57,15 @@ public class DFS {
      * @param node La celda desde la cual iniciar la DFS.
      * @param visited Mapa que lleva un registro de las celdas visitadas.
      */
-    private void getDFSUtil(NodeGraph<Celda> node, Map<String, Boolean> visited) {
+    private void getDFSUtil(NodeGraph<Celda> node, Map<String, Boolean> visited, NodeGraph<Celda> parent) {
         // Marcar la celda actual como visitada
         visited.put(node.getValue().getId(), true);
+        node.setPadre(parent); // Establecer el nodo padre
         // Recorrer todos los vecinos de la celda actual
         for (NodeGraph<Celda> neighbor : node.getArista()) {
             // Si el vecino no ha sido visitado, realizar DFS recursivamente
             if (!visited.getOrDefault(neighbor.getValue().getId(), false)) {
-                getDFSUtil(neighbor, visited);
+                getDFSUtil(neighbor, visited,node);
             }
         }
     }

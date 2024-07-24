@@ -6,7 +6,7 @@ import java.util.List;
 public class NodeGraph<T> {
     private T value;
     private List<NodeGraph<T>> arista;
-
+    private NodeGraph<T> padre;
     /**
      * Constructor para inicializar un nodo con un valor dado.
      * 
@@ -14,6 +14,7 @@ public class NodeGraph<T> {
      */
     public NodeGraph(T valor) {
         this.value = valor;
+        this.padre = null;
         this.arista = new ArrayList<>();
     }
 
@@ -78,5 +79,13 @@ public class NodeGraph<T> {
      */
     public void setArista(List<NodeGraph<T>> arista) {
         this.arista = arista;
+    }
+
+    public NodeGraph<T> getPadre() {
+        return padre;
+    }
+
+    public void setPadre(NodeGraph<T> padre) {
+        this.padre = padre;
     }
 }
