@@ -1,7 +1,7 @@
 # Proyecto Laberinto
 
 # Proyecto Final
-
+[alt text](ups1.jpeg)
 ## Ciclo
 2do Ciclo
 
@@ -91,8 +91,8 @@ Cada integrante del equipo evaluará los siguientes criterios:
 - **Rafael Prieto**: Correctitud del Algoritmo en cuanto a la Verificación de que el algoritmo encuentra el camino correcto.
 
 ## Capturas de la Implementación Final de la UI
-![Imagenes del laberinto](C:\Users\Usuario\Downloads\LABERINTO-JAVA-REACT-1\interfaz1.jpeg)
-![Imagenes del laberinto](C:\Users\Usuario\Downloads\LABERINTO-JAVA-REACT-1\interfaz2.jpeg)
+![alt text](interfaz1.jpeg)
+![alt text](interfaz2.jpeg)
 
 
 ## Conclusiones
