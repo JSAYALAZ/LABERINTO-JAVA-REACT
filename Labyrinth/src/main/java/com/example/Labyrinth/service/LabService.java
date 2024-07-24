@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 import com.example.Labyrinth.model.Grapho;
+import com.example.Labyrinth.model.Summary;
 
 @Service
 public class LabService {
@@ -65,4 +66,9 @@ public class LabService {
     public List<String> pathDinamic() {
         return new Dinamic().serviceGetDinamic(laberinto);
     }
+
+    public Summary[] extra() {
+        return new MetodoExtra().getBestPath(laberinto);
+    }
 }
+print

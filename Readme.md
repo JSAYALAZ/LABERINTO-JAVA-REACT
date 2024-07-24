@@ -1,107 +1,193 @@
-# Proyecto de Laberinto
+# Proyecto Laberinto
 
-Este es un proyecto desarrollado con Java y Spring Boot para la creación de una REST API. Este es nuestro backend. Nuestro front-end está desarrollado con React, Next.js, Tailwind CSS y Axios. Se han habilitado CORS y todo lo necesario.
+## Descripción del problema
 
-## Descripción del Proyecto
+Un jugador está en la esquina superior izquierda (0,0) de un tablero m x n. En el tablero hay celdas transitables (`true`) y no transitables (`false`). El objetivo es encontrar un camino válido para ir a la esquina inferior derecha, sabiendo que solo se puede mover hacia abajo y hacia la derecha.
 
-El proyecto consiste en un laberinto implementado a través del uso de grafos, destinado a la materia de Estructura de Datos. El recorrido dentro del laberinto se realiza utilizando algoritmos de búsqueda como BFS (Breadth-First Search), DFS (Depth-First Search) y caching para optimizar el rendimiento.
+### Ejemplo 1:
 
-## Tecnologías Utilizadas
+Input:
+[
+[true, true, true, true],
+[false, false, false, true],
+[true, true, false, true],
+[true, true, false, true]
+]
 
-### Backend
+Output: `[(0,0), (0,1), (0,2), (0,3), (1,3), (2,3), (3,3)]`
 
-- **Java**
-- **Spring Boot**
+### Ejemplo 2:
 
-### Frontend
+Input:
+[
+[true, true, true, true],
+[false, true, true, true],
+[true, true, false, false],
+[true, true, true, true]
+]
 
-- **React**
-- **Next.js**
-- **Tailwind CSS**
-- **Axios**
+Output: `[(0,0), (0,1), (1,1), (2,1), (3,1), (3,2), (3,3)]`
 
-## Autores
+## Marco Teórico
 
-- Rafael Prieto
-- Steven Chimbo
-- Jose Ayala
+### Programación Dinámica
+La programación dinámica es una técnica de optimización que se utiliza para resolver problemas complejos dividiéndolos en subproblemas más simples y almacenando los resultados de estos subproblemas para evitar cálculos redundantes. En este proyecto, se usa para almacenar los resultados de las celdas visitadas y así mejorar la eficiencia del algoritmo.
 
-Somos estudiantes de la carrera de Computación en la Universidad Politécnica Salesiana (UPS), sede Cuenca, Ecuador.
+### Búsqueda en Profundidad (DFS)
+La búsqueda en profundidad (DFS) es un algoritmo de búsqueda que se adentra en las ramas del grafo hasta llegar al final de una rama antes de retroceder y explorar otras ramas. Es útil para problemas donde se necesita explorar todos los posibles caminos.
 
-## Requisitos
+### Búsqueda en Anchura (BFS)
+La búsqueda en anchura (BFS) es un algoritmo de búsqueda que explora todas las celdas adyacentes de una celda antes de profundizar en cada una de ellas. Es ideal para encontrar el camino más corto en un grafo no ponderado.
 
-- Node.js
-- JDK 22
+## Descripción de la propuesta de solución
 
-## Puertos Habilitados
+### Herramientas y Lenguajes Utilizados
+- **Lenguaje**: Java
+- **Estructuras de Datos**: Lista de Adyacencia para representar el grafo, `List<String>` para almacenar los caminos.
+- **Algoritmos**: DFS, BFS, Programación Dinámica.
 
-- Puerto 8080 para el backend
-- Puerto 3000 para el frontend
+### Solución Implementada
 
-## Instrucciones de Ejecución
+1. **Definición de la estructura del grafo**:
+   - Usamos `Map<String, List<String>>` para representar el grafo, donde cada celda es una clave y sus valores son las celdas adyacentes transitables.
 
-### Frontend (React)
+2. **Método `buildGraph`**:
+   - Construimos el grafo a partir de una matriz de booleanos. Por cada celda transitable (`true`), añadimos las celdas adyacentes (abajo y derecha) al grafo.
 
-1. Navegar al directorio del cliente:
+3. **Método `addEdge`**:
+   - Añade una arista (conexión) en el grafo entre dos celdas.
 
-   ```bash
-   cd laberinto-client
-   ```
+4. **Método `getPathDFS` y `dfs`**:
+   - Implementa la búsqueda DFS. Utilizamos un `Set<String>` para rastrear las celdas visitadas y un `List<String>` para almacenar el camino.
+   - El método `dfs` realiza la búsqueda recursiva. Si encuentra el final, construye el camino.
 
-2. Instalar las dependencias:
+5. **Método `getPathBFS`**:
+   - Implementa la búsqueda BFS. Utilizamos una `Queue<String>` para manejar la búsqueda en anchura y un `Map<String, String>` para rastrear los padres de cada celda, lo que nos permite construir el camino.
 
-   ```bash
-   npm i
-   ```
+6. **Método `getBestPath`**:
+   - Compara los caminos devueltos por DFS y BFS, y selecciona el más corto.
 
-3. Ejecutar el servidor de desarrollo:
+### Código Implementado
 
-   ```bash
-   npm run dev
-   ```
+```java
+import java.util.*;
 
-### Backend (Java)
+public class LaberintoGraph {
 
-1. Navegar al directorio del backend:
+    private Map<String, List<String>> graph = new HashMap<>();
 
-   ```bash
-   cd labyrinth
-   ```
+    private void addEdge(String from, String to) {
+        graph.computeIfAbsent(from, k -> new ArrayList<>()).add(to);
+    }
 
-2. Limpiar el proyecto:
+    public void buildGraph(boolean[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j]) {
+                    String cell = i + "," + j;
+                    if (i + 1 < rows && grid[i + 1][j]) addEdge(cell, (i + 1) + "," + j);
+                    if (j + 1 < cols && grid[i][j + 1]) addEdge(cell, i + "," + (j + 1));
+                }
+            }
+        }
+    }
 
-   ```bash
-   ./mvnw clean
-   ```
+    public List<String> getPathDFS() {
+        List<String> path = new ArrayList<>();
+        Set<String> visited = new HashSet<>();
+        String start = "0,0";
+        String end = (graph.size() - 1) + "," + (graph.size() - 1);
+        if (dfs(start, end, visited, path)) {
+            Collections.reverse(path);
+            return path;
+        }
+        return new ArrayList<>();
+    }
 
-3. Ejecutar la aplicación Spring Boot:
+    private boolean dfs(String current, String end, Set<String> visited, List<String> path) {
+        if (!graph.containsKey(current) || visited.contains(current)) return false;
+        visited.add(current);
+        if (current.equals(end)) {
+            path.add(current);
+            return true;
+        }
+        for (String neighbor : graph.get(current)) {
+            if (dfs(neighbor, end, visited, path)) {
+                path.add(current);
+                return true;
+            }
+        }
+        return false;
+    }
 
-   ```bash
-   ./mvnw spring-boot:run
-   ```
+    public List<String> getPathBFS() {
+        List<String> path = new ArrayList<>();
+        Queue<String> queue = new LinkedList<>();
+        Map<String, String> parent = new HashMap<>();
+        String start = "0,0";
+        String end = (graph.size() - 1) + "," + (graph.size() - 1);
+        queue.add(start);
+        parent.put(start, null);
 
-- **Generación de Laberintos**: Creación y visualización de laberintos utilizando estructuras de datos.
-- **Recorridos**: Implementación de algoritmos de búsqueda (BFS, DFS) para recorrer el laberinto.
-- **Caching**: Optimización del rendimiento mediante técnicas de caching.
-- **Interfaz de Usuario**: Interfaz intuitiva para la interacción con el laberinto.
-- **API REST**: Endpoints para la gestión y manipulación de los datos del laberinto.
+        while (!queue.isEmpty()) {
+            String current = queue.poll();
+            if (current.equals(end)) {
+                while (current != null) {
+                    path.add(current);
+                    current = parent.get(current);
+                }
+                Collections.reverse(path);
+                return path;
+            }
+            for (String neighbor : graph.getOrDefault(current, new ArrayList<>())) {
+                if (!parent.containsKey(neighbor)) {
+                    queue.add(neighbor);
+                    parent.put(neighbor, current);
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
 
-## Contribución
+    public List<String> getBestPath() {
+        List<String> pathDFS = getPathDFS();
+        List<String> pathBFS = getPathBFS();
 
-Si deseas contribuir al proyecto, por favor sigue los siguientes pasos:
+        if (pathDFS.isEmpty()) return pathBFS;
+        if (pathBFS.isEmpty()) return pathDFS;
 
-1. Haz un fork del repositorio.
-2. Crea una rama con la nueva funcionalidad (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza los cambios y haz commit (`git commit -am 'Añadir nueva funcionalidad'`).
-4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
-5. Abre un Pull Request.
+        return (pathDFS.size() < pathBFS.size()) ? pathDFS : pathBFS;
+    }
 
-## Contacto
+    public static void main(String[] args) {
+        boolean[][] grid = {
+            {true, true, true, true},
+            {false, false, false, true},
+            {true, true, false, true},
+            {true, true, false, true}
+        };
 
-Para más información, puedes contactarnos a través de nuestros correos electrónicos:
+        LaberintoGraph laberinto = new LaberintoGraph();
+        laberinto.buildGraph(grid);
+        List<String> bestPath = laberinto.getBestPath();
+        System.out.println("Mejor camino encontrado: " + bestPath);
+    }
+}
+Conclusiones
+Comparación de Métodos
+Recursiva (DFS)
 
-- Rafael Prieto: [rafael.prieto@ups.edu.ec](mailto:rafael.prieto@ups.edu.ec)
-- Steven Chimbo: [steven.chimbo@ups.edu.ec](mailto:steven.chimbo@ups.edu.ec)
-- Jose Ayala: [jose.ayala@ups.edu.ec](mailto:jose.ayala@ups.edu.ec)
+Pros: Fácil de implementar, buena para encontrar cualquier camino.
+Contras: Puede ser ineficiente en términos de tiempo y espacio para laberintos grandes debido a la profundidad de la recursión.
+Búsqueda en Anchura (BFS)
 
-¡Gracias por tu interés en nuestro proyecto!
+Pros: Garantiza encontrar el camino más corto en un grafo no ponderado.
+Contras: Puede consumir más memoria debido a la necesidad de almacenar todos los nodos en el nivel actual.
+Programación Dinámica
+
+Pros: Optimiza el tiempo de ejecución al almacenar los resultados de subproblemas ya resueltos.
+Contras: La implementación puede ser más compleja y requiere memoria adicional para almacenar los resultados.
+Mejor Opción
+La mejor opción para encontrar el camino más corto en un laberinto es la Búsqueda en Anchura (BFS). Esto se debe a que BFS explora todos los caminos posibles nivel por nivel, garantizando así el camino más corto en un grafo no ponderado. Aunque puede consumir más memoria, su capacidad para encontrar la solución óptima de manera consistente la hace superior a otros métodos en términos de encontrar el camino más corto.

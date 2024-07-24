@@ -1,16 +1,18 @@
 import React, { Dispatch, SetStateAction } from "react";
 type propsT = {
-  setPath: Dispatch<SetStateAction<string[]>>;
+  setResp: Dispatch<SetStateAction<string[]>>;
+  setSteps: Dispatch<SetStateAction<string[]>>;
 };
 
-export default function Clean({ setPath }: propsT) {
+export default function Clean({setResp,setSteps}: propsT) {
   const clearPath = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setPath([]);
+    setResp([]);
+    setSteps([]);
   };
   return (
     <button
-      className="bg-amber-400 h-10 px-5 rounded-lg"
+      className="bg-amber-400 h-10 px-5 w-full rounded-lg"
       onClick={(e) => clearPath(e)}
     >
       clean

@@ -1,19 +1,18 @@
 import axios from "axios";
 import React, { Dispatch, SetStateAction } from "react";
 type propsT = {
-  setPath: Dispatch<SetStateAction<string[]>>;
+  setResp: Dispatch<SetStateAction<string[]>>;
+  setRecorrido: Dispatch<SetStateAction<string[]>>;
 };
-export default function Dinamic({ setPath }: propsT) {
-  const handleDFS = async (e: React.MouseEvent<HTMLButtonElement>) => {
+export default function Dinamic({ setResp,setRecorrido }: propsT) {
+  const handleDinamic = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setResp([])
+    setRecorrido([])
     axios
       .get("http://localhost:8080/laberinto/dinamic")
       .then((response) => {
-        console.log("RECORRIDO DINAMIC");
-        console.log("RECORRIDO DINAMIC");
-        console.log("RECORRIDO DINAMIC");
-        console.log(response.data);
-        setPath(response.data);
+        setResp(response.data);
       })
       .catch((error) => {
         console.error("Error creating the labyrinth:", error);
@@ -22,8 +21,8 @@ export default function Dinamic({ setPath }: propsT) {
 
   return (
     <button
-      className="bg-amber-400 h-10 px-5 rounded-lg"
-      onClick={(e) => handleDFS(e)}
+      className="bg-amber-400 w-full h-10 px-5 rounded-lg"
+      onClick={(e) => handleDinamic(e)}
     >
       Dinamico Pro
     </button>

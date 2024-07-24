@@ -9,6 +9,7 @@ import java.util.Set;
 import com.example.Labyrinth.model.Celda;
 import com.example.Labyrinth.model.Grapho;
 import com.example.Labyrinth.model.NodeGraph;
+import com.example.Labyrinth.model.Summary;
 
 public class SimpleRecursive {
 
@@ -70,4 +71,49 @@ public class SimpleRecursive {
         visited.remove(current.getId());
         return false;
     }
+
+    private List<String> getSteps(Grapho laberinto) {
+        List<String> path = new ArrayList<>();
+        Set<String> visited = new HashSet<>(); // Para evitar ciclos
+        NodeGraph<Celda> start = laberinto.getCelda(0, 0);
+        getRecursiveUtilSteeps(laberinto, start, laberinto.getSizeX() - 1, laberinto.getSizeY() - 1, path, visited);
+        return path;
+    }
+    
+    private void getRecursiveUtilSteeps(Grapho laberinto, NodeGraph<Celda> node, int finalRow, int finalCol, List<String> path, Set<String> visited) {
+        if (node == null) {
+            return; // Salir si el nodo es nulo
+        }
+    
+        Celda current = node.getValue();
+        String currentId = current.getId();
+        path.add(currentId);
+    
+        // Verificar si la celda ya ha sido visitada
+        if (!visited.add(currentId)) {
+            return; // Si ya fue visitada, salir
+        }
+    
+        // Verificar si hemos llegado a la última celda
+        if (Integer.parseInt(currentId.split(",")[0]) == finalRow && Integer.parseInt(currentId.split(",")[1]) == finalCol) {
+            return;
+        }
+    
+        // Explorar todos los nodos conectados
+        for (NodeGraph<Celda> neighbor : node.getArista()) {
+            getRecursiveUtilSteeps(laberinto, neighbor, finalRow, finalCol, path, visited);
+        }
+    }
+
+    
+
+    public Summary summary (Grapho laberinto){
+        Summary summary = new Summary();
+        summary.setRecorrido(getSteps(laberinto));
+        summary.setRespuesta(serviceGetRecursive(laberinto));
+        summary.setPasos(summary.getRecorrido().size());
+        summary.setName("simple");
+        return summary;
+    }
+
 }

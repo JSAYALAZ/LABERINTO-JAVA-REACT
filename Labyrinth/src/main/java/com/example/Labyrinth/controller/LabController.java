@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Labyrinth.model.Summary;
 import com.example.Labyrinth.service.LabService;
 
 @RestController
@@ -83,6 +84,10 @@ public class LabController {
     public List<String> getPathBFS() {
         return service.pathBFS();
     }
+    @GetMapping("/best")
+    public Summary[] best() {
+        return service.extra();
+    }
 
     /**
      * Endpoint de prueba para crear un laberinto con dimensiones predefinidas.
@@ -93,6 +98,6 @@ public class LabController {
      */
     @GetMapping("/create")
     public Map<String, List<String>> crear() {
-        return service.createLabyrinth(3, 3);
+        return service.createLabyrinth(5, 5);
     }
 }

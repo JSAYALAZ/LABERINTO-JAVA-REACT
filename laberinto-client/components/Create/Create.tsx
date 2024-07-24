@@ -3,10 +3,18 @@ import React, { Dispatch, SetStateAction } from "react";
 
 type propsT = {
   setData: Dispatch<SetStateAction<undefined>>;
+  setResp: Dispatch<SetStateAction<string[]>>;
+  setSteps: Dispatch<SetStateAction<string[]>>;
+  setNames: Dispatch<SetStateAction<string[]>>;
+  setPasos:Dispatch<SetStateAction<number[]>>
 };
-export default function Create({ setData }: propsT) {
+export default function Create({ setData,setResp,setSteps,setNames,setPasos }: propsT) {
   const handleCreate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setResp([]);
+    setSteps([]);
+    setPasos([])
+    setNames([])
     const cols = (document.getElementById("col") as HTMLInputElement).value;
     const rows = (document.getElementById("row") as HTMLInputElement).value;
     axios
@@ -17,10 +25,6 @@ export default function Create({ setData }: propsT) {
         },
       })
       .then((response) => {
-        console.log("LABERINTO CREADO");
-        console.log("LABERINTO CREADO");
-        console.log("LABERINTO CREADO");
-        console.log(response.data);
         setData(response.data);
       })
       .catch((error) => {
