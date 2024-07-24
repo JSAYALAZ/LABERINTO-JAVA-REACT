@@ -71,4 +71,3 @@ public class LabService {
         return new MetodoExtra().getBestPath(laberinto);
     }
 }
-print
