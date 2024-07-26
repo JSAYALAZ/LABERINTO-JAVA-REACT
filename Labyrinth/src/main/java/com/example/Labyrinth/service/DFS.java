@@ -19,11 +19,15 @@ public class DFS {
      * @param laberinto Un objeto Grapho que representa el laberinto.
      * @return Una lista de cadenas que representa los IDs de las celdas visitadas en el orden de visita.
      */
-    public Summary serviceGetDFS(Grapho laberinto) {
+    public Summary serviceGetDFS(Grapho laberinto, String start, String end) {
+        int startX = Integer.parseInt(start.split(",")[0]);
+        int startY = Integer.parseInt(start.split(",")[1]);
+        int endX = Integer.parseInt(end.split(",")[0]);
+        int endY = Integer.parseInt(end.split(",")[1]);
         // Mapa para rastrear las celdas visitadas
         Map<String, Boolean> visited = new LinkedHashMap<>();
         // Obtener la celda inicial
-        NodeGraph<Celda> startNode = laberinto.getCelda(0, 0);
+        NodeGraph<Celda> startNode = laberinto.getCelda(startX, startY);
 
         // Iniciar DFS si la celda inicial no es nula
         long timeStart = System.nanoTime();
@@ -40,7 +44,7 @@ public class DFS {
 
 
         List<String> recorridoRespuesta = new ArrayList<>();
-        NodeGraph<Celda> currentNode = laberinto.getCelda(laberinto.getSizeX()-1,laberinto.getSizeY()-1); // Suponiendo que hay un método para obtener el nodo objetivo
+        NodeGraph<Celda> currentNode = laberinto.getCelda(endX,endY); // Suponiendo que hay un método para obtener el nodo objetivo
         while (currentNode != null) {
             recorridoRespuesta.add(0, currentNode.getValue().getId());
             currentNode = currentNode.getPadre();

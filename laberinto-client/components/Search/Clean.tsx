@@ -1,14 +1,14 @@
+import { summaryT } from "@/src/types";
+import { summaryInitial } from "@/src/types/initials";
 import React, { Dispatch, SetStateAction } from "react";
 type propsT = {
-  setResp: Dispatch<SetStateAction<string[]>>;
-  setSteps: Dispatch<SetStateAction<string[]>>;
+  setSummary: Dispatch<SetStateAction<summaryT>>;
 };
 
-export default function Clean({setResp,setSteps}: propsT) {
+export default function Clean({setSummary}: propsT) {
   const clearPath = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setResp([]);
-    setSteps([]);
+    setSummary(summaryInitial)
   };
   return (
     <button

@@ -1,18 +1,18 @@
+import { summaryT } from "@/src/types";
+import { summaryInitial } from "@/src/types/initials";
 import axios from "axios";
 import React, { Dispatch, SetStateAction } from "react";
 type propsT = {
-  setResp: Dispatch<SetStateAction<string[]>>; 
-  setRecorrido: Dispatch<SetStateAction<string[]>>; 
+  setSummary: Dispatch<SetStateAction<summaryT>>;
 };
-export default function Recursive({ setResp,setRecorrido }: propsT) {
+export default function Recursive({ setSummary }: propsT) {
   const handleDFS = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setResp([])
-    setRecorrido([])
+    setSummary(summaryInitial)
     axios
       .get("http://localhost:8080/laberinto/recursivoSimple")
       .then((response) => {
-        setResp(response.data);
+        setSummary(response.data);
       })
       .catch((error) => {
         console.error("Error creating the labyrinth:", error);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Labyrinth.model.LabyrinthModel;
 import com.example.Labyrinth.model.Summary;
 import com.example.Labyrinth.service.LabService;
 
@@ -32,9 +33,9 @@ public class LabController {
      * @return Un mapa donde las claves son los IDs de las celdas y los valores son listas de IDs de celdas conectadas.
      */
     @PostMapping("/create")
-    public Map<String, List<String>> crear(@RequestParam int row, @RequestParam int col) {
+    public LabyrinthModel crear(@RequestParam int row, @RequestParam int col,  @RequestParam String start,  @RequestParam String end) {
         service = new LabService();
-        return service.createLabyrinth(row, col);
+        return service.createLabyrinth(row, col,start,end);
     }
 
     /**
@@ -97,7 +98,7 @@ public class LabController {
      * @return Un mapa donde las claves son los IDs de las celdas y los valores son listas de IDs de celdas conectadas.
      */
     @GetMapping("/create")
-    public Map<String, List<String>> crear() {
-        return service.createLabyrinth(5, 5);
+    public LabyrinthModel crear() {
+        return service.createLabyrinth(5, 5, "1,1", "4,4");
     }
 }

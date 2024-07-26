@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.example.Labyrinth.model.Celda;
 import com.example.Labyrinth.model.Grapho;
+import com.example.Labyrinth.model.LabyrinthModel;
 import com.example.Labyrinth.model.NodeGraph;
 
 public class Laberinto {
@@ -53,14 +54,18 @@ public class Laberinto {
      * @return Un objeto Grapho que representa el laberinto.
      */
     public Grapho createGraph(int filas, int columnas) {
+        
         Grapho laberinto = new Grapho(filas, columnas);
         List<NodeGraph<Celda>> nodes = laberinto.getAllCeldas();
         List<int[]> edges = new ArrayList<>();
         int[] parent = new int[filas * columnas];
 
+        
         for (int i = 0; i < parent.length; i++) {
             parent[i] = i;
         }
+        // Helper help = new Helper();
+        // help.printArray(parent);
 
         // Crear todas las posibles aristas
         for (int i = 0; i < filas; i++) {
@@ -75,6 +80,7 @@ public class Laberinto {
             }
         }
 
+        
         // Mezclar y seleccionar aristas utilizando Kruskal
         Collections.shuffle(edges);
         for (int[] edge : edges) {
@@ -91,6 +97,8 @@ public class Laberinto {
         return laberinto;
     }
 
+
+
     /**
      * Método para obtener un mapa del laberinto, donde cada celda está mapeada
      * a sus celdas conectadas.
@@ -98,7 +106,7 @@ public class Laberinto {
      * @param laberinto Un objeto Grapho que representa el laberinto.
      * @return Un mapa donde las claves son los IDs de las celdas y los valores son listas de IDs de celdas conectadas.
      */
-    public Map<String, List<String>> getLabyrinthMap(Grapho laberinto) {
+    public LabyrinthModel getLabyrinthResponse(Grapho laberinto, String start, String end) {
         List<NodeGraph<Celda>> nodes = laberinto.getAllCeldas();
         Map<String, List<String>> caminos = new HashMap<>();
 
@@ -110,6 +118,11 @@ public class Laberinto {
             caminos.put(nodo.getValue().getId(), conocidos);
         }
 
-        return caminos;
+
+        LabyrinthModel modelo = new LabyrinthModel();
+        modelo.setGraph(caminos);
+        modelo.setEnd(end);
+        modelo.setStart(start);;
+        return modelo;
     }
 }

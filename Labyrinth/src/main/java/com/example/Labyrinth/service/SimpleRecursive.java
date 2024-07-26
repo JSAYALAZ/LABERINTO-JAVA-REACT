@@ -13,16 +13,21 @@ import com.example.Labyrinth.model.Summary;
 
 public class SimpleRecursive {
 
-    public Summary serviceGetRecursive(Grapho laberinto) {
+    public Summary serviceGetRecursive(Grapho laberinto,String start , String end) {
+        int startX = Integer.parseInt(start.split(",")[0]);
+        int startY = Integer.parseInt(start.split(",")[1]);
+        int endX = Integer.parseInt(end.split(",")[0]);
+        int endY = Integer.parseInt(end.split(",")[1]);
+
         List<String> path = new ArrayList<>();
         List<String> allSteps = new ArrayList<>();
         Set<String> visited = new HashSet<>(); // Para evitar ciclos
-        NodeGraph<Celda> start = laberinto.getCelda(0, 0);
+        NodeGraph<Celda> startNode = laberinto.getCelda(startX, startY);
 
         // Calcular el tiempo de inicio
         long startTime = System.nanoTime();
 
-        if (getRecursiveUtil(laberinto, start, laberinto.getSizeX() - 1, laberinto.getSizeY() - 1, path, visited, allSteps)) {
+        if (getRecursiveUtil(laberinto, startNode, endX, endY, path, visited, allSteps)) {
             Collections.reverse(path); // Revertimos el path para que el orden sea desde el inicio hasta el final
         }
 
@@ -54,7 +59,8 @@ public class SimpleRecursive {
         }
 
         // Verificar si hemos llegado a la última celda
-        if (Integer.parseInt(current.getId().split(",")[0]) == finalRow && Integer.parseInt(current.getId().split(",")[1]) == finalCol) {
+        if (Integer.parseInt(current.getId().split(",")[0]) == finalRow
+         && Integer.parseInt(current.getId().split(",")[1]) == finalCol) {
             path.add(current.getId());
             return true;
         }

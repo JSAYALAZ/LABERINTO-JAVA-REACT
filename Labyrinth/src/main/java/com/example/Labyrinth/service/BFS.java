@@ -23,15 +23,19 @@ public class BFS {
      * el recorrido de las celdas visitadas en el orden de visita, el recorrido completo desde 
      * el inicio hasta la celda final y el número de pasos.
      */
-    public Summary serviceGetBFS(Grapho laberinto) {
+    public Summary serviceGetBFS(Grapho laberinto, String start, String end) {
+        int startX = Integer.parseInt(start.split(",")[0]);
+        int startY = Integer.parseInt(start.split(",")[1]);
+        int endX = Integer.parseInt(end.split(",")[0]);
+        int endY = Integer.parseInt(end.split(",")[1]);
         // Cola para BFS y mapas para almacenar el camino y los padres de cada nodo
         Queue<NodeGraph<Celda>> cola = new LinkedList<>();
         Map<String, Boolean> visited = new LinkedHashMap<>();
         Map<String, String> parent = new LinkedHashMap<>();
         
         // Celdas inicial y final
-        NodeGraph<Celda> startNode = laberinto.getCelda(0, 0);
-        NodeGraph<Celda> endNode = laberinto.getCelda(laberinto.getSizeX() - 1, laberinto.getSizeY() - 1); // Suponiendo que hay un método para obtener el nodo objetivo
+        NodeGraph<Celda> startNode = laberinto.getCelda(startX, startY);
+        NodeGraph<Celda> endNode = laberinto.getCelda(endX, endY); 
         
         long timeStart = System.nanoTime();
         

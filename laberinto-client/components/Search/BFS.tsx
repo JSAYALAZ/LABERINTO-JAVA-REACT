@@ -1,20 +1,19 @@
+import { summaryT } from "@/src/types";
+import { summaryInitial } from "@/src/types/initials";
 import axios from "axios";
 import React, { Dispatch, SetStateAction } from "react";
 
 type PropsT = {
-  setResp: Dispatch<SetStateAction<string[]>>;
-  setRecorrido: Dispatch<SetStateAction<string[]>>;
+  setSummary: Dispatch<SetStateAction<summaryT>>;
 };
 
-export default function BFS({ setResp, setRecorrido }: PropsT) {
+export default function BFS({ setSummary }: PropsT) {
   const handleBFS = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setRecorrido([]);
-    setResp([]);
-    
+    setSummary(summaryInitial)
     try {
       const response = await axios.get("http://localhost:8080/laberinto/bfs");
-      setRecorrido(response.data);
+      setSummary(response.data);
     } catch (error) {
       console.error("Error executing BFS search:", error);
     }

@@ -1,35 +1,30 @@
+import { summaryT } from "@/src/types";
 import React from "react";
 
 type propsT = {
-  method1: string;
-  method2: string;
-  reccorido1?: string[];
-  recorrido2?: string[];
-  respuesta1?: string[];
-  respuesta2?: string[];
-  pasos1: number;
-  pasos2: number;
-};
-export default function Summary({
-  method1,
-  method2,
-  pasos1,
-  pasos2,
+  summary: summaryT
+}
 
-}: propsT) {
+
+export default function Summary({summary}: propsT) {
   return (
     <div className="flex flex-col lg:flex-row items-center justify-around gap-4 p-4 bg-gray-100 rounded-lg shadow-md">
       <div className="w-full lg:w-1/2 bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
-        <h2 className="text-xl font-bold mb-2 text-indigo-600">{method1}</h2>
+        <h2 className="text-xl font-bold mb-2 text-indigo-600">Summary</h2>
         <p className="text-gray-700 mb-2">
-          Pasos: <span className="font-semibold">{pasos1}</span>
+          Nombre: <span className="font-semibold">{summary.name}</span>
         </p>
-      </div>
-
-      <div className="w-full lg:w-1/2 bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
-        <h2 className="text-xl font-bold mb-2 text-indigo-600">{method2}</h2>
         <p className="text-gray-700 mb-2">
-          Pasos: <span className="font-semibold">{pasos2}</span>
+          Tiempo implementado: <span className="font-semibold">{summary.time}</span>
+        </p>
+        <p className="text-gray-700 mb-2">
+          Pasos total: <span className="font-semibold">{summary.pasos}</span>
+        </p>
+        <p className="text-gray-700 mb-2">
+          Pasos de recorrido: <span className="font-semibold">{summary.recorrido.length}</span>
+        </p>
+        <p className="text-gray-700 mb-2">
+          Pasos hasta respuesta: <span className="font-semibold">{summary.respuesta.length}</span>
         </p>
       </div>
     </div>

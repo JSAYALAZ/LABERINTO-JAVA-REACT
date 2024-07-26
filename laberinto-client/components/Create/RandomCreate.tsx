@@ -1,12 +1,9 @@
+import { LabyrinthT } from "@/src/types";
 import axios from "axios";
 import React, { Dispatch, SetStateAction } from "react";
 
 type propsT = {
-  setData: Dispatch<SetStateAction<undefined>>;
-  setResp: Dispatch<SetStateAction<string[]>>;
-  setSteps: Dispatch<SetStateAction<string[]>>;
-  setNames: Dispatch<SetStateAction<string[]>>;
-  setPasos: Dispatch<SetStateAction<number[]>>;
+  setData: Dispatch<SetStateAction<LabyrinthT>>;
 };
 const generateRandomColsAndRows = () => {
   let colsRandom = Math.floor(Math.random() * 51);
@@ -19,29 +16,31 @@ const generateRandomColsAndRows = () => {
   return { colsRandom, rowsRandom };
 };
 
-export default function RandomCreate({ setData, setResp, setSteps,setNames,setPasos }: propsT) {
+export default function RandomCreate({ setData}: propsT) {
   const handleCreate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setResp([]);
-    setSteps([]);
-    setNames([])
-    setPasos([])
     const { colsRandom, rowsRandom } = generateRandomColsAndRows();
 
-    (document.getElementById("col") as HTMLInputElement).value =
-      String(colsRandom);
-    (document.getElementById("row") as HTMLInputElement).value =
-      String(rowsRandom);
+    (document.getElementById("col") as HTMLInputElement).value =String(colsRandom);
+    (document.getElementById("row") as HTMLInputElement).value =String(rowsRandom);
+    (document.getElementById("end") as HTMLInputElement).value =String(`${rowsRandom-1},${colsRandom-1}`);
+    (document.getElementById("start") as HTMLInputElement).value =String('0,0');
 
     axios
       .post("http://localhost:8080/laberinto/create", null, {
         params: {
           row: rowsRandom,
           col: colsRandom,
+          end: `${rowsRandom-1},${colsRandom-1}`,
+          start: '0,0'
         },
       })
       .then((response) => {
-        setData(response.data);
+        setData({
+          matriz: response.data.graph,
+          end: response.data.end,
+          start: response.data.start,
+        });
       })
       .catch((error) => {
         console.error("Error creating the labyrinth:", error);

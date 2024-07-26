@@ -10,17 +10,17 @@ import Recursive from "@/components/Search/Recursive";
 import Best from "@/components/Search/Best";
 import Summary from "@/components/Summary";
 import { useEffect, useState } from "react";
+import { LabyrinthT, summaryT } from "@/src/types";
+import { labyrinthInitial, summaryInitial } from "@/src/types/initials";
 
 export default function Page() {
-  const [data, setData] = useState();
-  const [recorrido, setRecorrido] = useState<string[]>([]);
-  const [respuesta, setRespuesta] = useState<string[]>([]);
-  const [pasos, setPasos] = useState<number[]>([]);
-  const [names, setNames] = useState<string[]>([]);
+  const [data, setData] = useState<LabyrinthT>(labyrinthInitial);
+  const [summary, setSummary] = useState<summaryT>(summaryInitial)
 
-  useEffect(() => {
-    console.log(recorrido);
-  }, [recorrido]);
+
+  useEffect(()=>{
+    setSummary(summaryInitial)
+  },[data])
 
   return (
     <div className="bg-neutral-200 min-h-screen w-full text-center">
@@ -31,51 +31,39 @@ export default function Page() {
           <Section title="Creación">
             <CreateLaberinto
               setData={setData}
-              setResp={setRespuesta}
-              setSteps={setRecorrido}
-              setPasos={setPasos}
-              setNames={setNames}
             />
           </Section>
           <Section title="Recorrido">
-            <DFS setResp={setRespuesta} setRecorrido={setRecorrido} />
-            <BFS setResp={setRespuesta} setRecorrido={setRecorrido} />
+            <DFS setSummary={setSummary} />
+            <BFS setSummary={setSummary} />
           </Section>
           <Section title="Respuestas">
-            <Dinamic setResp={setRespuesta} setRecorrido={setRecorrido} />
-            <Recursive setResp={setRespuesta} setRecorrido={setRecorrido} />
+            <Dinamic setSummary={setSummary} />
+            <Recursive setSummary={setSummary} />
           </Section>
-          <Section title="Análisis">
-            <Best
-              setResponse={setRespuesta}
+          {/* <Section title="Análisis">
+
+            <Best setResponse={setRespuesta}
               setSteps={setRecorrido}
               setNames={setNames}
               setPasos={setPasos}
             />
-          </Section>
+          </Section> */}
           <Section title="Limpiar">
-            <Clean setResp={setRespuesta} setSteps={setRecorrido} />
+            <Clean setSummary={setSummary}/>
           </Section>
-          {pasos.length > 0 && names.length > 0 && (
+          {summary.name!='' && (
             <div className="mt-4">
-              <Summary
-                method1={names[0]}
-                method2={names[1]}
-                pasos1={pasos[0]}
-                pasos2={pasos[1]}
-              />
+              <Summary summary={summary}/>
             </div>
           )}
         </div>
         <div className="lg:w-1/2 w-full flex flex-col gap-4">
-          {pasos.length > 0 && names.length > 0 && data !== undefined && (
-            <div className="flex flex-col gap-4 h-full">
-              <Laberinto matriz={data} recorrido={[]} respuesta={respuesta} />
-              <Laberinto matriz={data} recorrido={recorrido} respuesta={[]} />
-            </div>
-          )}
-          {data !== undefined && pasos.length === 0 && names.length === 0 && (
-            <Laberinto matriz={data} recorrido={recorrido} respuesta={respuesta} />
+          {data !== undefined && (
+            <>
+            <Laberinto data={data} summary={{...summary,recorrido:[]}} />
+            <Laberinto data={data} summary={summary} />
+            </>
           )}
         </div>
       </div>
