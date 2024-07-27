@@ -36,7 +36,7 @@ public class SimpleRecursive {
 
         // Crear el objeto Summary
         Summary summary = new Summary();
-        summary.setName("Labyrinth Solution");
+        summary.setName("Metodo recursivo");
         summary.setTime(Double.toString((endTime-startTime)*10e-9));
         summary.setRecorrido(allSteps);
         summary.setRespuesta(path); // Solo el camino hacia el resultado

@@ -1,9 +1,6 @@
-# Proyecto Laberinto
+![alt text](ups2.jpeg) 
+## Proyecto Laberinto
 
-# Proyecto Final
-![alt text](ups2.jpeg)
-## Ciclo
-2do Ciclo
 
 ## Integrantes
 - José Ayala
@@ -13,17 +10,15 @@
 ## Materia
 Estructura de Datos
 
-## Profesor
-Pablo Torres
+## Docente
+Ing. Pablo Torres
 
-## Semestre
-2024-2024
 
 ## Informe del Proyecto Final: Algoritmo de Laberinto Aplicando Programación Dinámica y Estructura de Datos
 Universidad Politécnica Salesiana
 
 Integrantes de la Practica: José Ayala, Rafael Prieto y Steven Chimbo.
-[Incluir enlace repositorio remoto del proyecto]
+https://github.com/JSAYALAZ/LABERINTO-JAVA-REACT
 
 ## Correos institucionales
 - ayalaz1@est.ups.edu.ec
@@ -43,13 +38,7 @@ Implementaremos y compararemos cuatro algoritmos distintos para resolver el prob
 ## Implementación
 ### Estructura del Proyecto
 - Se utilizará Java para implementar la lógica de los algoritmos.
-- La interfaz gráfica se implementará usando HTML y JavaScript para visualizar el laberinto y los caminos encontrados.
-
-### Funciones Clave
-- Visualización del laberinto: Celdas transitables y no transitables.
-- Entrada del usuario para definir los puntos A (inicio) y B (destino).
-- Botones para seleccionar y ejecutar diferentes algoritmos.
-- Mostrar el camino más corto encontrado por el algoritmo seleccionado.
+- La interfaz gráfica se implementará usando REACT - NEXT.JS para visualizar el laberinto y los caminos encontrados.
 
 ## Marco Teórico
 ### BFS (Breadth-First Search)
@@ -71,8 +60,8 @@ Los métodos recursivos implican que una función se llama a sí misma para reso
 - **Complejidad**: Exponencial en el peor de los casos.
 
 ### Visualización en la Web
-La visualización del laberinto en HTML. La interacción entre la lógica de los algoritmos implementados en Java y la visualización en la web es crucial para proporcionar una experiencia de usuario intuitiva.
-- **HTML**: Lenguaje de marcado utilizado para estructurar el contenido de la web.
+La visualización del laberinto en REACT. La interacción entre la lógica de los algoritmos implementados en Java y la visualización en la web es crucial para proporcionar una experiencia de usuario intuitiva.
+- **React**: Lenguaje de marcado utilizado para estructurar el contenido de la web.
 
 ## Descripción de la Propuesta de Solución
 - **Método Recursivo Simple**: Se explora cada posible movimiento desde la posición actual hasta encontrar el destino. Se implementa una función recursiva que intenta mover en todas las direcciones (arriba, abajo, izquierda, derecha).
@@ -81,8 +70,8 @@ La visualización del laberinto en HTML. La interacción entre la lógica de los
 - **DFS (Depth-First Search)**: Utiliza una pila para explorar profundamente en una dirección antes de retroceder. También marca las celdas visitadas para evitar ciclos.
 
 ## Herramientas y/o Lenguajes Utilizados
-- **Lenguajes**: Java, HTML
-- **Herramientas**: Visual Studio Code
+- **Tecnologias**: Java, React, Nodejs
+- **Herramientas**: Spring-boot, Nextjs
 
 ## Criterio por Integrante de la Propuesta
 Cada integrante del equipo evaluará los siguientes criterios:
@@ -91,8 +80,8 @@ Cada integrante del equipo evaluará los siguientes criterios:
 - **Rafael Prieto**: Correctitud del Algoritmo en cuanto a la Verificación de que el algoritmo encuentra el camino correcto.
 
 ## Capturas de la Implementación Final de la UI
-![alt text](interfaz1.jpeg)
-![alt text](interfaz2.jpeg)
+![alt text](interfaz1.png)
+![alt text](interfaz2.png)
 
 
 ## Conclusiones

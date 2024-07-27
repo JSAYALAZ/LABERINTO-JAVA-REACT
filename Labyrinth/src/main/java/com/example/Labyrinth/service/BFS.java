@@ -79,7 +79,7 @@ public class BFS {
         
         // Crear el objeto Summary
         Summary summary = new Summary();
-        summary.setName("bfs");
+        summary.setName("Recorrido BFS");
         summary.setTime(Double.toString(duration));
         summary.setRecorrido(new ArrayList<>(visited.keySet()));
         summary.setRespuesta(path);
