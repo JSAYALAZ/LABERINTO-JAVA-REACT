@@ -38,7 +38,7 @@ public class DFS {
 
         Summary summary = new Summary();
         summary.setPasos(visited.size());
-        summary.setName("dfs");
+        summary.setName("Recorrido DFS");
         summary.setTime(Double.toString(((timeEnd-timeStart)*10e-9)));
         summary.setRecorrido(new ArrayList<>(visited.keySet()));
 

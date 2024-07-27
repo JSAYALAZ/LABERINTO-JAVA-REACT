@@ -35,7 +35,7 @@ public class Dinamic {
        
 
         Summary summary = new Summary();
-        summary.setName("Labyrinth Dynamic Solution");
+        summary.setName("Metodo dinamico - cache");
         summary.setTime(Double.toString((endTime-startTime)*10e-9));
         summary.setRecorrido(allSteps);
         summary.setRespuesta(path);
