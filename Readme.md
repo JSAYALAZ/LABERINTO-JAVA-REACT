@@ -1,11 +1,12 @@
 ![alt text](ups2.jpeg) 
 ## Proyecto Laberinto
+Laberinto es una aplicación interactiva y educativa diseñada para resolver laberintos utilizando diferentes algoritmos de búsqueda y recorridos. Esta aplicación permite a los usuarios crear laberintos personalizados y visualizar cómo se resuelven en tiempo real, demostrando la naturaleza de los graphos.
 
 
-## Integrantes
-- José Ayala
-- Rafael Prieto
-- Steven Chimbo
+## Autores
+- José Ayala ayalaz1@est.ups.edu.ec
+- Rafael Prieto pprietos@est.ups.edu.ec
+- Steven Chimbo schimboc@est.ups.edu.ec
 
 ## Materia
 Estructura de Datos
@@ -14,16 +15,64 @@ Estructura de Datos
 Ing. Pablo Torres
 
 
-## Informe del Proyecto Final: Algoritmo de Laberinto Aplicando Programación Dinámica y Estructura de Datos
-Universidad Politécnica Salesiana
+## Requisitos
 
-Integrantes de la Practica: José Ayala, Rafael Prieto y Steven Chimbo.
-https://github.com/JSAYALAZ/LABERINTO-JAVA-REACT
+- Node.js
+- JDK 22
 
-## Correos institucionales
-- ayalaz1@est.ups.edu.ec
-- pprietos@est.ups.edu.ec
-- schimboc@est.ups.edu.ec
+## Puertos Habilitados
+
+- Puerto 8080 para el backend
+- Puerto 3000 para el frontend
+
+## Instrucciones de Ejecución
+
+### Frontend (React)
+
+1. Navegar al directorio del cliente:
+
+    ```bash
+    cd laberinto-client
+    ```
+2. Instalacion de nextjs
+
+    ```bash
+    npm i react@latest
+    ```
+
+3. Instalar las dependencias:
+
+    ```bash
+    npm i
+    ```
+
+4. Ejecutar el servidor de desarrollo:
+
+    ```bash
+    npm run dev
+    ```
+
+### Backend (Java)
+
+1. Navegar al directorio del backend:
+
+    ```bash
+    cd labyrinth
+    ```
+
+2. Limpiar el proyecto:
+
+    ```bash
+    ./mvnw clean
+    ```
+
+3. Ejecutar la aplicación Spring Boot:
+
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+
+
 
 ## Descripción del Problema
 El problema consiste en encontrar el camino más corto entre dos puntos, A que es el inicio y B el destino hacia dónde queremos llegar, en un laberinto definido como una matriz de celdas. Cada celda puede ser transitable o no transitable. Utilizaremos una combinación de algoritmos de búsqueda y una interfaz web para visualización.
@@ -38,7 +87,7 @@ Implementaremos y compararemos cuatro algoritmos distintos para resolver el prob
 ## Implementación
 ### Estructura del Proyecto
 - Se utilizará Java para implementar la lógica de los algoritmos.
-- La interfaz gráfica se implementará usando REACT - NEXT.JS para visualizar el laberinto y los caminos encontrados.
+- La interfaz gráfica se implementará usando REACT para visualizar el laberinto y los caminos encontrados.
 
 ## Marco Teórico
 ### BFS (Breadth-First Search)
@@ -49,29 +98,25 @@ DFS es un algoritmo de búsqueda en grafos que explora lo más profundamente pos
 
 ### Programación Dinámica
 La programación dinámica es una técnica de optimización que se utiliza para resolver problemas complejos dividiéndolos en subproblemas más simples. Utiliza una tabla para almacenar los resultados de los subproblemas ya resueltos para evitar cálculos redundantes.
-- **Definición**: Estrategia de optimización que soluciona cada subproblema una sola vez y guarda su resultado.
-- **Aplicación en Laberintos**: Puede ser usada para calcular el camino más corto almacenando las distancias mínimas desde el punto inicial a cada celda.
-- **Complejidad**: Depende del problema específico, pero suele mejorar significativamente el rendimiento comparado con métodos recursivos sin optimización.
 
 ### Métodos Recursivos
 Los métodos recursivos implican que una función se llama a sí misma para resolver subproblemas. Aunque pueden ser intuitivos y fáciles de implementar, pueden ser ineficientes debido a la redundancia en los cálculos y la alta complejidad temporal.
-- **Definición**: Técnica donde la solución de un problema depende de soluciones a instancias más pequeñas del mismo problema.
-- **Aplicación en Laberintos**: Se puede usar para explorar todos los posibles caminos, pero puede ser ineficiente para laberintos grandes.
-- **Complejidad**: Exponencial en el peor de los casos.
+
 
 ### Visualización en la Web
 La visualización del laberinto en REACT. La interacción entre la lógica de los algoritmos implementados en Java y la visualización en la web es crucial para proporcionar una experiencia de usuario intuitiva.
-- **React**: Lenguaje de marcado utilizado para estructurar el contenido de la web.
 
-## Descripción de la Propuesta de Solución
-- **Método Recursivo Simple**: Se explora cada posible movimiento desde la posición actual hasta encontrar el destino. Se implementa una función recursiva que intenta mover en todas las direcciones (arriba, abajo, izquierda, derecha).
-- **Método Aplicando Caché (Programación Dinámica)**: Similar al método recursivo, pero utilizando una tabla para almacenar las soluciones de subproblemas ya resueltos. Esto evita cálculos redundantes y mejora la eficiencia.
-- **BFS (Breadth-First Search)**: Utiliza una cola para explorar cada nivel del laberinto. Marca las celdas visitadas para evitar ciclos y caminos redundantes.
-- **DFS (Depth-First Search)**: Utiliza una pila para explorar profundamente en una dirección antes de retroceder. También marca las celdas visitadas para evitar ciclos.
+## Tecnologías Utilizadas
 
-## Herramientas y/o Lenguajes Utilizados
-- **Tecnologias**: Java, React, Nodejs
-- **Herramientas**: Spring-boot, Nextjs
+### Backend
+- **Java**
+- **Spring Boot**
+
+### Frontend
+- **React**
+- **Next.js**
+- **Tailwind CSS**
+- **Axios**
 
 ## Criterio por Integrante de la Propuesta
 Cada integrante del equipo evaluará los siguientes criterios:
