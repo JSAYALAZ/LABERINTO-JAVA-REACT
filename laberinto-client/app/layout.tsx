@@ -16,7 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`${inter.className} 
+        bg-[url('../public/img/bg1.webp')] bg-cover bg-center min-h-screen
+        font-minecraft`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

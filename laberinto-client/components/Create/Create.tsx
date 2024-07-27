@@ -55,7 +55,7 @@ export default function Create({ setData }: propsT) {
   };
   return (
     <button
-      className="bg-amber-400 h-10 px-5 rounded-lg"
+      className="bg-amber-400 h-10 px-5 rounded-lg font-pixelify"
       onClick={(e) => handleCreate(e)}
     >
       Crear

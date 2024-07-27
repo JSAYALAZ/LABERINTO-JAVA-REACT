@@ -22,7 +22,7 @@ export default function DFS({ setSummary }: propsT) {
 
   return (
     <button
-      className="bg-amber-400 h-10 w-full px-5 rounded-lg"
+      className="bg-amber-400 h-10 w-full px-5 rounded-lg font-pixelify"
       onClick={(e) => handleDFS(e)}
     >
       DFS

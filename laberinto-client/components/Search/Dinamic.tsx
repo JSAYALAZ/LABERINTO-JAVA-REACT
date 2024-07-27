@@ -21,7 +21,7 @@ export default function Dinamic({ setSummary }: propsT) {
 
   return (
     <button
-      className="bg-amber-400 w-full h-10 px-5 rounded-lg"
+      className="bg-amber-400 w-full h-10 px-5 rounded-lg font-pixelify"
       onClick={(e) => handleDinamic(e)}
     >
       Dinamico Pro

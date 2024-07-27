@@ -9,18 +9,25 @@ type propsT = {
 
 export default function CreateLaberinto({ setData }: propsT) {
   return (
-    <div className="bg-neutral-200 rounded-lg py-2 px-2 w-full">
+    <div className="bg-white bg-opacity-50 rounded-lg py-2 px-2 w-full">
       <form className="flex gap-3 items-center">
         <div className="grid grid-cols-2 gap-4">
+
           <div className="input_container">
-            <label htmlFor="col" className="form_label">
-              Columnas
-            </label>
-            <input className="form_input" type="number" name="col" id="col" required/>
+            <label htmlFor="col" className="form_label">Colum</label>
+            <input 
+            className="form_input" 
+            type="number" 
+            name="col" 
+            id="col" min={0} required/>
           </div>
           <div className="input_container">
             <label htmlFor="row" className="form_label">Filas</label>
-            <input className="form_input" type="number" name="row" id="row" required/>
+            <input 
+            className="form_input" 
+            type="number" 
+            name="row" 
+            id="row" min={0} required/>
           </div>
           <div className="input_container">
             <label htmlFor="start" className="form_label">
@@ -31,7 +38,7 @@ export default function CreateLaberinto({ setData }: propsT) {
               type="text"
               name="start"
               id="start"
-              placeholder="Opcional"
+              placeholder="Opc 2,4 - 5,2"
             />
           </div>
           <div className="input_container">
@@ -43,7 +50,7 @@ export default function CreateLaberinto({ setData }: propsT) {
               type="text"
               name="end"
               id="end"
-              placeholder="Opcional"
+              placeholder="Opc 9,5 - 2,4"
             />
           </div>
         </div>

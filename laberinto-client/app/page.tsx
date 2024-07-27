@@ -1,37 +1,38 @@
 "use client";
+import { useEffect, useState } from "react";
 import CreateLaberinto from "@/components/CreateLaberinto";
 import DFS from "@/components/Search/DFS";
-import Laberinto from "@/components/Laberinto";
-import Loading from "@/components/Loading";
 import BFS from "@/components/Search/BFS";
 import Clean from "@/components/Search/Clean";
 import Dinamic from "@/components/Search/Dinamic";
 import Recursive from "@/components/Search/Recursive";
-import Best from "@/components/Search/Best";
+import Laberinto from "@/components/Laberinto";
 import Summary from "@/components/Summary";
-import { useEffect, useState } from "react";
 import { LabyrinthT, summaryT } from "@/src/types";
 import { labyrinthInitial, summaryInitial } from "@/src/types/initials";
+import Speed from "@/components/Speed";
 
 export default function Page() {
   const [data, setData] = useState<LabyrinthT>(labyrinthInitial);
-  const [summary, setSummary] = useState<summaryT>(summaryInitial)
+  const [summary, setSummary] = useState<summaryT>(summaryInitial);
+  const [speedResp, setSpeedResp] = useState(1);
+  const [speedSteps, setSpeedSteps] = useState(1);
+  useEffect(() => {
+    setSummary(summaryInitial);
+  }, [data]);
+  
 
-
-  useEffect(()=>{
-    setSummary(summaryInitial)
-  },[data])
 
   return (
-    <div className="bg-neutral-200 min-h-screen w-full text-center">
-      <h1 className="text-3xl uppercase font-bold py-5">Laberinto</h1>
+    <div className="text-center">
+      <h1 className="text-6xl uppercase font-extrabold font-minecraft py-5">
+        Laberinto
+      </h1>
 
-      <div className="flex flex-col lg:flex-row gap-4 bg-neutral-100 p-3 lg:w-4/5 lg:mx-auto shadow-md">
+      <div className="bg-white bg-opacity-70 p-4 flex rounded-lg flex-col shadow-md md:px-10 lg:flex-row mx-5 gap-4 lg:w-4/5 lg:mx-auto">
         <div className="lg:w-1/2 w-full flex flex-col gap-4">
           <Section title="Creación">
-            <CreateLaberinto
-              setData={setData}
-            />
+            <CreateLaberinto setData={setData} />
           </Section>
           <Section title="Recorrido">
             <DFS setSummary={setSummary} />
@@ -41,32 +42,56 @@ export default function Page() {
             <Dinamic setSummary={setSummary} />
             <Recursive setSummary={setSummary} />
           </Section>
-          {/* <Section title="Análisis">
-
-            <Best setResponse={setRespuesta}
-              setSteps={setRecorrido}
-              setNames={setNames}
-              setPasos={setPasos}
-            />
-          </Section> */}
           <Section title="Limpiar">
-            <Clean setSummary={setSummary}/>
+            <Clean setSummary={setSummary} />
           </Section>
-          {summary.name!='' && (
-            <div className="mt-4">
-              <Summary summary={summary}/>
+          <div className="mt-4">
+            <Summary summary={summary} />
+          </div>
+        </div>
+        <div className="lg:w-1/2 w-full flex flex-col gap-4">
+          {data.end != "" ? (
+            <>
+              <div className="h-full">
+                <div className="flex w-full justify-evenly items-center mb-1">
+                  <p>Solucion</p>
+                  <Speed setData={setSpeedResp} />
+                </div>
+                <div>
+                  <Laberinto
+                    data={data}
+                    summary={{ ...summary, recorrido: [] }}
+                    speed={speedResp}
+                  />
+                </div>
+              </div>
+              <div className="h-full gap-2">
+                <div className="flex w-full justify-evenly items-center mb-1">
+                  <p>Completo</p>
+                  <Speed setData={setSpeedSteps} />
+                </div>
+                <div>
+                  <Laberinto data={data} summary={summary} speed={speedSteps} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="h-full content-center">
+              <p>Bienvenido</p>
             </div>
           )}
         </div>
-        <div className="lg:w-1/2 w-full flex flex-col gap-4">
-          {data !== undefined && (
-            <>
-            <Laberinto data={data} summary={{...summary,recorrido:[]}} />
-            <Laberinto data={data} summary={summary} />
-            </>
-          )}
-        </div>
       </div>
+
+      <footer
+        className="lg:absolute bottom-0 left-0 w-full 
+    text-center bg-opacity-75 bg-gray-800 text-white p-2"
+      >
+        Derechos reservados{" "}
+        <span className="font-pixelify text-xl">
+          JSAYALAZ, RAETO0, STEVENCHIMBO
+        </span>
+      </footer>
     </div>
   );
 }

@@ -1,14 +1,21 @@
 import { LabyrinthT, summaryT } from "@/src/types";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 type PropsT = {
-  data: LabyrinthT
-  summary?: summaryT
+  data: LabyrinthT;
+  summary?: summaryT;
+  speed: number
 };
 
-export default function Laberinto({data,summary}:PropsT) {
+export default function Laberinto({ data, summary,speed }: PropsT) {
   const [resp, setResp] = useState<string[]>();
   const [pasos, setPasos] = useState<string[]>();
+  const [deadEnds, setDeadEnds] = useState<string[]>();
+  useEffect(()=>{
+    setResp([])
+    setPasos([])
+  },[speed])
 
   useEffect(() => {
     if (summary) {
@@ -18,14 +25,13 @@ export default function Laberinto({data,summary}:PropsT) {
         const timeouts = summary.recorrido.map((pathC, index) =>
           setTimeout(() => {
             setPasos((prevSteps) => [...(prevSteps || []), pathC]);
-          }, index * 50)
+          }, index * (300 / speed))
         );
-
         return () => timeouts.forEach(clearTimeout);
       }
     }
-  }, [summary?.recorrido]);
-
+  }, [summary?.recorrido, speed]);
+  
   useEffect(() => {
     if (summary) {
       if (summary.respuesta.length === 0) {
@@ -34,13 +40,33 @@ export default function Laberinto({data,summary}:PropsT) {
         const timeouts = summary.respuesta.map((pathC, index) =>
           setTimeout(() => {
             setResp((prevSteppeds) => [...(prevSteppeds || []), pathC]);
-          }, index * 100)
+          }, index * (300 / speed))
         );
-
         return () => timeouts.forEach(clearTimeout);
       }
     }
-  }, [summary?.respuesta]);
+  }, [summary?.respuesta, speed]);
+
+  useEffect(() => {
+    if (summary?.recorrido) {
+      const findFinalSteps = (laberinto: LabyrinthT, recorrido: string[]) => {
+        const deadEnds = [];
+        for (let i = 0; i < recorrido.length - 1; i++) {
+          if (laberinto.matriz[recorrido[i]]?.length === 1) {
+            deadEnds.push(recorrido[i]);
+          }
+        }
+        const lastNode = recorrido[recorrido.length - 1];
+        if (laberinto.matriz[lastNode]?.length === 1) {
+          deadEnds.push(lastNode);
+        }
+        return deadEnds;
+      };
+
+      const deadEnds = findFinalSteps(data, summary.recorrido);
+      setDeadEnds(deadEnds);
+    }
+  }, [summary?.recorrido, data.matriz]);
 
   const getMaxCoordinate = (matriz: { [key: string]: string[] }) => {
     let maxX = 0;
@@ -50,7 +76,6 @@ export default function Laberinto({data,summary}:PropsT) {
       if (x + 1 > maxX) maxX = x + 1;
       if (y + 1 > maxY) maxY = y + 1;
     });
-
     return { maxX, maxY };
   };
 
@@ -69,7 +94,7 @@ export default function Laberinto({data,summary}:PropsT) {
 
   return (
     <div
-      className="w-full h-full grid"
+      className="w-full lg:h-full min-h-96 grid rounded-lg"
       style={{
         gridTemplateColumns: `repeat(${maxX}, 1fr)`,
         gridTemplateRows: `repeat(${maxY}, 1fr)`,
@@ -93,20 +118,61 @@ export default function Laberinto({data,summary}:PropsT) {
               : "1px solid black",
           };
 
+          const isPaso = pasos?.includes(key);
+          const isResp = resp?.includes(key);
+          const isStart = key === data.start;
+          const isEnd = key === data.end;
+          const isEndStep = deadEnds?.includes(key) && pasos?.includes(key);
+
+          let bgColor = "";
+          if (isStart) {
+            bgColor = "bg-green-400";
+          } else if (isEnd) {
+            bgColor = "bg-amber-500";
+          } else if (isPaso && !isEndStep && !isResp) {
+            bgColor = "bg-indigo-400";
+          } else if (isResp&&summary?.recorrido.length==0) {
+            bgColor = "bg-cyan-300";
+          }else if (isResp&&pasos?.includes(key)) {
+            bgColor = "bg-cyan-300";
+          } else if (isEndStep) {
+            bgColor = "bg-red-300";
+          }
+
           return (
             <div
               key={key}
-              className={`flex items-center justify-center 
-                ${key == data.start && "bg-green-300"}
-                ${key == data.end && "bg-amber-500"}
-                ${pasos?.includes(key) && "bg-indigo-400"}
-                ${(resp?.includes(key)&&pasos?.includes(key)) && "bg-cyan-400"}
-                ${(resp?.includes(key)&&pasos?.length==0) && "bg-red-400"}
-                `}
+              className={`flex items-center justify-center ${bgColor} 
+                bg-opacity-60 border-neutral-500`}
               style={borders}
             >
-              {/* aqui aguegar lo de cada  */}
-              {key}
+              <div className="relative w-full h-full">
+                {pasos?.at(pasos.length - 1) === key && (
+                  <Image
+                    alt="liebre"
+                    fill
+                    src={"/img/liebre.png"}
+                    className="object-contain"
+                  />
+                )}
+                {(resp?.at(resp.length - 1) === key)&&summary?.recorrido.length==0 && 
+                  (
+                  <Image
+                    alt="tortuga "
+                    fill
+                    src={"/img/tortuga.png"}
+                    className="object-contain"
+                  />
+                )}
+                {isEndStep && !isStart && !isEnd && (
+                  <Image
+                    alt="liebre"
+                    fill
+                    src={"/img/x.png"}
+                    className="object-contain scale-50"
+                  />
+                )}
+              </div>
             </div>
           );
         })

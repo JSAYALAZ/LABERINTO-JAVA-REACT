@@ -12,10 +12,10 @@ export default function Clean({setSummary}: propsT) {
   };
   return (
     <button
-      className="bg-amber-400 h-10 px-5 w-full rounded-lg"
+      className="bg-amber-400 h-10 px-5 w-full rounded-lg font-pixelify"
       onClick={(e) => clearPath(e)}
     >
-      clean
+      Limpiar laberinto
     </button>
   );
 }
