@@ -5,7 +5,7 @@ import java.util.List;
 
 public class NodeGraph<T> {
     private T value;
-    private List<NodeGraph<T>> arista;
+    private List<NodeGraph<T>> aristas;
     private NodeGraph<T> padre;
     /**
      * Constructor para inicializar un nodo con un valor dado.
@@ -15,7 +15,7 @@ public class NodeGraph<T> {
     public NodeGraph(T valor) {
         this.value = valor;
         this.padre = null;
-        this.arista = new ArrayList<>();
+        this.aristas = new ArrayList<>();
     }
 
     /**
@@ -33,7 +33,7 @@ public class NodeGraph<T> {
      * @return Una lista de nodos conectados a este nodo.
      */
     public List<NodeGraph<T>> getAristas() {
-        return this.arista;
+        return this.aristas;
     }
 
     /**
@@ -42,7 +42,7 @@ public class NodeGraph<T> {
      * @param nodo El nodo al cual se conectará este nodo.
      */
     public void addArista(NodeGraph<T> nodo) {
-        this.arista.add(nodo);
+        this.aristas.add(nodo);
     }
 
     /**
@@ -63,24 +63,6 @@ public class NodeGraph<T> {
         this.value = value;
     }
 
-    /**
-     * Método para obtener la lista de aristas (nodos conectados).
-     * 
-     * @return Una lista de nodos conectados a este nodo.
-     */
-    public List<NodeGraph<T>> getArista() {
-        return arista;
-    }
-
-    /**
-     * Método para establecer la lista de aristas (nodos conectados).
-     * 
-     * @param arista La nueva lista de nodos conectados a este nodo.
-     */
-    public void setArista(List<NodeGraph<T>> arista) {
-        this.arista = arista;
-    }
-
     public NodeGraph<T> getPadre() {
         return padre;
     }
@@ -88,4 +70,10 @@ public class NodeGraph<T> {
     public void setPadre(NodeGraph<T> padre) {
         this.padre = padre;
     }
+
+    public void setAristas(List<NodeGraph<T>> aristas) {
+        this.aristas = aristas;
+    }
+
+    
 }

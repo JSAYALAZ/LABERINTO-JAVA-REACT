@@ -1,8 +1,4 @@
 package com.example.Labyrinth.controller;
-
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +32,14 @@ public class LabController {
     public LabyrinthModel crear(@RequestParam int row, @RequestParam int col,  @RequestParam String start,  @RequestParam String end) {
         service = new LabService();
         return service.createLabyrinth(row, col,start,end);
+    }
+    @PostMapping("/rute/delete")
+    public LabyrinthModel deleteRute(@RequestParam String id) {
+        return service.delleteRute(id);
+    }
+    @PostMapping("/rute/create")
+    public LabyrinthModel createRute(@RequestParam String id) {
+        return service.createRute(id);
     }
 
     /**

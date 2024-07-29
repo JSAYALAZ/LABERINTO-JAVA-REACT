@@ -98,6 +98,38 @@ public class Laberinto {
     }
 
 
+    public LabyrinthModel deleteRute(Grapho graph , String nodeDelete, String start, String end){
+        List<NodeGraph<Celda>> nodes = graph.getAllCeldas();
+        for (NodeGraph<Celda> nodeGraph : nodes) {
+            List<NodeGraph<Celda>> newAristas = new ArrayList<>();
+            //Each neighborth of the node
+            for (NodeGraph<Celda> node : nodeGraph.getAristas()) {
+                if (!node.getValue().getId().equals(nodeDelete)) {
+                    newAristas.add(node);
+                }
+            }
+            nodeGraph.setAristas(newAristas);
+
+            if(nodeGraph.getValue().getId()==nodeDelete){
+                nodeGraph.setAristas(null);
+            }
+        }
+        
+        return getLabyrinthResponse(graph, start, end);
+    }
+    public LabyrinthModel addRute(Grapho graph, String nodeAdd, String start, String end){
+        int x = Integer.parseInt(nodeAdd.split(",")[0]);
+        int y = Integer.parseInt(nodeAdd.split(",")[1]);
+        NodeGraph<Celda> node = graph.getCelda(x,y);
+        List<NodeGraph<Celda>> vecinos = new ArrayList<>();
+        vecinos.add(graph.getCelda(x+1, y));
+        vecinos.add(graph.getCelda(x-1, y));
+        vecinos.add(graph.getCelda(x, y+1));
+        vecinos.add(graph.getCelda(x, y-1));
+        node.setAristas(vecinos);
+        return getLabyrinthResponse(graph, start, end);
+    }
+
 
     /**
      * Método para obtener un mapa del laberinto, donde cada celda está mapeada
@@ -112,7 +144,7 @@ public class Laberinto {
 
         for (NodeGraph<Celda> nodo : nodes) {
             List<String> conocidos = new ArrayList<>();
-            for (NodeGraph<Celda> cell : nodo.getArista()) {
+            for (NodeGraph<Celda> cell : nodo.getAristas()) {
                 conocidos.add(cell.getValue().getId());
             }
             caminos.put(nodo.getValue().getId(), conocidos);

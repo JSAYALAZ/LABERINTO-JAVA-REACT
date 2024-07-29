@@ -97,4 +97,10 @@ public class Grapho {
     public int getSizeY() {
         return sizeY;
     }
+
+    public void setMatrizCeldas(NodeGraph<Celda>[][] matrizCeldas) {
+        this.matrizCeldas = matrizCeldas;
+    }
+
+    
 }

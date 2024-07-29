@@ -1,7 +1,5 @@
 package com.example.Labyrinth.service;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
@@ -34,6 +32,14 @@ public class LabService {
         this.end = end;
         laberinto = creator.createGraph(row, col);
         return creator.getLabyrinthResponse(laberinto, start, end);
+    }
+
+
+    public LabyrinthModel createRute(String id){
+        return creator.addRute(laberinto, id, start, end);
+    }
+    public LabyrinthModel delleteRute(String id){
+        return creator.deleteRute(laberinto, id, start, end);
     }
 
     /**

@@ -65,7 +65,7 @@ public class Dinamic {
 
         boolean hasPath = false;
         // Itera sobre cada vecino conectado
-        for (NodeGraph<Celda> neighbor : startNode.getArista()) {
+        for (NodeGraph<Celda> neighbor : startNode.getAristas()) {
             // Sólo procesa vecinos no visitados o que no están en cache
             if (!cache.containsKey(neighbor) || !cache.get(neighbor)) {
                 hasPath = findPathUtil(neighbor,endNode, path, cache, laberinto, allSteps);

@@ -53,7 +53,7 @@ public class BFS {
                 }
 
                 // Recorrer todos los vecinos de la celda actual
-                for (NodeGraph<Celda> neighbor : currentNode.getArista()) {
+                for (NodeGraph<Celda> neighbor : currentNode.getAristas()) {
                     // Si el vecino no ha sido visitado, añadirlo a la cola y marcarlo como visitado
                     if (!visited.getOrDefault(neighbor.getValue().getId(), false)) {
                         cola.add(neighbor);

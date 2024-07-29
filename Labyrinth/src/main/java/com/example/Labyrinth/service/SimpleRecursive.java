@@ -66,7 +66,7 @@ public class SimpleRecursive {
         }
 
         // Explorar todos los nodos conectados
-        for (NodeGraph<Celda> neighbor : node.getArista()) {
+        for (NodeGraph<Celda> neighbor : node.getAristas()) {
             if (getRecursiveUtil(laberinto, neighbor, finalRow, finalCol, path, visited, allSteps)) {
                 path.add(current.getId());
                 return true;

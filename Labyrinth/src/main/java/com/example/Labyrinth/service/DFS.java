@@ -66,7 +66,7 @@ public class DFS {
         visited.put(node.getValue().getId(), true);
         node.setPadre(parent); // Establecer el nodo padre
         // Recorrer todos los vecinos de la celda actual
-        for (NodeGraph<Celda> neighbor : node.getArista()) {
+        for (NodeGraph<Celda> neighbor : node.getAristas()) {
             // Si el vecino no ha sido visitado, realizar DFS recursivamente
             if (!visited.getOrDefault(neighbor.getValue().getId(), false)) {
                 getDFSUtil(neighbor, visited,node);
