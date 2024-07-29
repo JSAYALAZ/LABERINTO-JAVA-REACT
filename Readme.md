@@ -8,12 +8,15 @@ Laberinto es una aplicación interactiva y educativa diseñada para resolver lab
 - Rafael Prieto pprietos@est.ups.edu.ec
 - Steven Chimbo schimboc@est.ups.edu.ec
 
+## Capturas de la Implementación Final de la UI
+![alt text](interfaz1.png)
+![alt text](interfaz2.png)
+
 ## Materia
 Estructura de Datos
 
 ## Docente
 Ing. Pablo Torres
-
 
 ## Requisitos
 
@@ -118,15 +121,7 @@ La visualización del laberinto en REACT. La interacción entre la lógica de lo
 - **Tailwind CSS**
 - **Axios**
 
-## Criterio por Integrante de la Propuesta
-Cada integrante del equipo evaluará los siguientes criterios:
-- **José Ayala**: Eficiencia del Algoritmo en cuanto al tiempo de ejecución y uso de memoria.
-- **Steven Chimbo**: Claridad del Código en cuanto facilidad de lectura y mantenimiento.
-- **Rafael Prieto**: Correctitud del Algoritmo en cuanto a la Verificación de que el algoritmo encuentra el camino correcto.
 
-## Capturas de la Implementación Final de la UI
-![alt text](interfaz1.png)
-![alt text](interfaz2.png)
 
 
 ## Conclusiones
