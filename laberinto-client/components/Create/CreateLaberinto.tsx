@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
-import RandomCreate from "./Create/RandomCreate";
-import Create from "./Create/Create";
+import RandomCreate from "./RandomCreate";
+import Create from "./Create";
 import { LabyrinthT } from "@/src/types";
 
 type propsT = {

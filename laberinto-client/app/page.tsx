@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import CreateLaberinto from "@/components/CreateLaberinto";
+import CreateLaberinto from "@/components/Create/CreateLaberinto";
 import DFS from "@/components/Search/DFS";
 import BFS from "@/components/Search/BFS";
 import Clean from "@/components/Search/Clean";
@@ -10,18 +10,22 @@ import Laberinto from "@/components/Laberinto";
 import Summary from "@/components/Summary";
 import { LabyrinthT, summaryT } from "@/src/types";
 import { labyrinthInitial, summaryInitial } from "@/src/types/initials";
-import Speed from "@/components/Speed";
+import Speed from "@/components/Control/Speed";
+import AddRute from "@/components/Control/alterRute";
+import AlterRute from "@/components/Control/alterRute";
 
 export default function Page() {
   const [data, setData] = useState<LabyrinthT>(labyrinthInitial);
   const [summary, setSummary] = useState<summaryT>(summaryInitial);
   const [speedResp, setSpeedResp] = useState(1);
   const [speedSteps, setSpeedSteps] = useState(1);
+  const [addMode, setAddMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
+  const [idModify, setIdModify] = useState("");
+
   useEffect(() => {
     setSummary(summaryInitial);
   }, [data]);
-  
-
 
   return (
     <div className="text-center">
@@ -55,10 +59,18 @@ export default function Page() {
               <div className="h-full">
                 <div className="flex w-full justify-evenly items-center mb-1">
                   <p>Solucion</p>
+                  <AlterRute ableSelect={setAddMode} text="Habilitar ruta" />
+                  <AlterRute ableSelect={setDeleteMode} text="Desabilitar ruta" />
                   <Speed setData={setSpeedResp} />
                 </div>
                 <div>
                   <Laberinto
+                    setIdModify={setIdModify}
+                    selectMode={
+                      addMode ? { name: 'add', state: true } :
+                      deleteMode ? { name: 'delete', state: true } :
+                      undefined
+                    }
                     data={data}
                     summary={{ ...summary, recorrido: [] }}
                     speed={speedResp}
@@ -71,7 +83,17 @@ export default function Page() {
                   <Speed setData={setSpeedSteps} />
                 </div>
                 <div>
-                  <Laberinto data={data} summary={summary} speed={speedSteps} />
+                  <Laberinto
+                    setIdModify={setIdModify}
+                    selectMode={
+                      addMode ? { name: 'add', state: true } :
+                      deleteMode ? { name: 'delete', state: true } :
+                      undefined
+                    }
+                    data={data}
+                    summary={summary}
+                    speed={speedSteps}
+                  />
                 </div>
               </div>
             </>
@@ -84,8 +106,8 @@ export default function Page() {
       </div>
 
       <footer
-        className="lg:absolute bottom-0 left-0 w-full 
-    text-center bg-opacity-75 bg-gray-800 text-white p-2"
+        className="bottom-0 left-0 w-full lg:absolute 
+        text-center bg-opacity-75 bg-gray-800 text-white p-2"
       >
         Derechos reservados{" "}
         <span className="font-pixelify text-xl">

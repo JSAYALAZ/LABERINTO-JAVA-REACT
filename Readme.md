@@ -156,3 +156,19 @@ Cada estudiante podría enfocarse en:
 - **Steven Chimbo**: Investigación y documentación de algoritmos de búsqueda.
 - **José Ayala**: Desarrollo de la interfaz de usuario y visualización de rutas.
 - **Rafael Prieto**: Pruebas y validación de los algoritmos implementados.
+
+## Conclusiones
+### Conclusion de cada estudiante
+
+- *José Ayala*:
+Me enfoque principalmente en el desarrollo de la interfaz de usuario.Trabajar en la interfaz me permitió comprender la importancia de una buena visualización y usabilidad en el análisis de algoritmos. La capacidad de ver los caminos generados por los diferentes métodos en tiempo real fue esencial para apreciar las diferencias en eficiencia y efectividad de cada algoritmo. La integración de los componentes y la facilidad de uso del programa son aspectos clave que mejoran significativamente la experiencia del usuario.
+
+Este proyecto me enseñó que una interfaz gráfica bien diseñada es crucial para la comprensión de los algoritmos. La facilidad de interacción y visualización clara de los resultados hace que el análisis y la comparación de métodos sean efectivos. Además, la colaboración con mis compañeros resaltó la importancia del trabajo en equipo para lograr un producto final funcional.
+
+- *Rafael Prieto*:
+Me enfoque principalmente en la codificación de los métodos de búsqueda y resolución del laberinto.Implementar los métodos de búsqueda como DFS, BFS, recursividad y dinámico me permitió profundizar en el funcionamiento interno de estos algoritmos. Observando sus resultados en la interfaz gráfica, pude ver claramente los pros y los contras de cada uno. Este proceso me enseñó la importancia de la eficiencia del algoritmo.
+
+Este proyecto demostró la importancia de implementar y comparar diferentes algoritmos para entender sus eficiencias. La posibilidad de ver los resultados en una interfaz clara y funcional me ayudó a apreciar mejor el impacto de cada método en la resolución de laberintos. La colaboración con el equipo fue esencial para integrar las diferentes partes del proyecto de la mejor manera.
+
+- *Steven Chimbo*
+Me enfoque en el desarrollo del README, las especificaciones del proyecto y el informe. Documentar el proyecto fue una experiencia significativa, ya que me permitió consolidar y explicar claramente cada parte del proyecto y su funcionamiento. La redacción del README y el informe me ayudaron a entender la importancia de las especificaciones que debe tener un programa en relacion con Estructura de Datos. Esto facilita el uso del programa y también proporciona un recurso valioso para futuros desarrollos.

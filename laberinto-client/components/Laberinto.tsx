@@ -1,14 +1,17 @@
 import { LabyrinthT, summaryT } from "@/src/types";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type PropsT = {
+  setIdModify: Dispatch<SetStateAction<string>>
+  selectMode?:{name:string, state:boolean}
   data: LabyrinthT;
   summary?: summaryT;
   speed: number
 };
 
-export default function Laberinto({ data, summary,speed }: PropsT) {
+export default function Laberinto({selectMode, data, summary,speed }: PropsT) {
+  const [celdModify, setCeldModify] = useState('1,1');
   const [resp, setResp] = useState<string[]>();
   const [pasos, setPasos] = useState<string[]>();
   const [deadEnds, setDeadEnds] = useState<string[]>();
@@ -92,6 +95,8 @@ export default function Laberinto({ data, summary,speed }: PropsT) {
     return data.matriz[`${x},${y}`]?.includes(neighborKey!);
   };
 
+
+
   return (
     <div
       className="w-full lg:h-full min-h-96 grid rounded-lg"
@@ -142,9 +147,11 @@ export default function Laberinto({ data, summary,speed }: PropsT) {
           return (
             <div
               key={key}
-              className={`flex items-center justify-center ${bgColor} 
+              className={`flex items-center justify-center 
+                ${selectMode?'bg-neutral-500 hover:cursor-pointer':bgColor} 
                 bg-opacity-60 border-neutral-500`}
               style={borders}
+              // onMouseOver={}
             >
               <div className="relative w-full h-full">
                 {pasos?.at(pasos.length - 1) === key && (
@@ -169,6 +176,15 @@ export default function Laberinto({ data, summary,speed }: PropsT) {
                     alt="liebre"
                     fill
                     src={"/img/x.png"}
+                    className="object-contain scale-50"
+                  />
+                )}
+
+                {selectMode&&celdModify==key && (
+                  <Image
+                    alt="liebre"
+                    fill
+                    src={"/img/point.png"}
                     className="object-contain scale-50"
                   />
                 )}
